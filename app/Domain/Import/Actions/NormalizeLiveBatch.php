@@ -42,7 +42,8 @@ class NormalizeLiveBatch
 
         $rows = ImportProductRaw::where('batch_id', $batchId)
             ->where('source', 'comup-live')
-            ->where('state', 'raw')
+            // rejected wraca do gry po zmianie słownika/aliasów — idempotentnie
+            ->whereIn('state', ['raw', 'rejected'])
             ->get();
 
         foreach ($rows as $row) {
@@ -71,7 +72,7 @@ class NormalizeLiveBatch
 
             $stone = null;
             if (filled($stoneRaw)) {
-                $stone = $this->matchStone($stones, $stoneRaw);
+                [$stone, $viaAlias] = $this->matchStone($stones, $stoneRaw);
                 if ($stone === null) {
                     // zamknięta lista 8 — rekord NIE wchodzi do bazy produktów
                     $row->update(['state' => 'rejected', 'errors' => [
@@ -79,6 +80,9 @@ class NormalizeLiveBatch
                     ]]);
                     $stats['rejected']++;
                     continue;
+                }
+                if ($viaAlias) {
+                    $warnings[] = "kamień zmapowany aliasem: {$stoneRaw} → {$stone->slug}";
                 }
             }
 
@@ -149,15 +153,27 @@ class NormalizeLiveBatch
         return $out;
     }
 
-    private function matchStone($stones, string $raw): ?object
+    /** @return array{0: ?object, 1: bool} [kamień, czy dopasowano aliasem] */
+    private function matchStone($stones, string $raw): array
     {
         $needle = mb_strtolower(trim($raw));
 
-        return $stones->first(
+        $exact = $stones->first(
             fn ($s) => $s->translations->contains(
                 fn ($t) => mb_strtolower($t->name) === $needle,
             ),
         );
+        if ($exact !== null) {
+            return [$exact, false];
+        }
+
+        foreach (config('evastone.stone_aliases', []) as $slug => $aliases) {
+            if (in_array($needle, array_map('mb_strtolower', $aliases), true)) {
+                return [$stones->firstWhere('slug', $slug), true];
+            }
+        }
+
+        return [null, false];
     }
 
     /** KOLOR → wykończenie kanoniczne (silber|vergoldet|oxidiert|kombi). */

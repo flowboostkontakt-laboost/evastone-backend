@@ -42,6 +42,49 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Aliasy kamieni — warianty zapisu z ComUp → slug słownika (lista 8)
+    |--------------------------------------------------------------------------
+    | WYŁĄCZNIE inne zapisy TEGO SAMEGO kamienia (język, liczba mnoga,
+    | literówki, odmiana handlowa topazu). To nie jest furtka do
+    | rozszerzania zamkniętej listy — nowy kamień wymaga decyzji klienta
+    | i zmiany w DictionarySeeder (PR-review, patrz dok. 21 §3.1).
+    | Dopasowanie case-insensitive po mb_strtolower.
+    */
+    'stone_aliases' => [
+        'diament-czarny' => [
+            'czarny diament', 'czarne diamenty', 'kostka czarnego diamentu',
+            'schwarz diamant', 'schwarzer diamant', 'schwarzer diamanten',
+            'schwarze diamanten', 'black diamond', 'black diamonds',
+        ],
+        'diament-surowy' => [
+            'würfel rohdiamant', 'würfel rohdiamanten', 'rohdiamant',
+            'rohdiamanten', 'surowy diament', 'kostka surowego diamentu',
+            'kostki surowego diamentu', 'rough diamond', 'rough diamonds',
+            'raw diamond', 'raw diamond cube',
+        ],
+        'szafir-bialy' => [
+            'biały szafir', 'białe szafiry', 'weißer saphir', 'weiße saphire',
+            'weisse saphire', 'white sapphire', 'white sapphires',
+        ],
+        'szafir-pomaranczowy' => [
+            'pomarańczowy szafir', 'pomarańczowe szafiry', 'oranger saphir',
+            'orange saphire', 'orange sapphire',
+        ],
+        // odmiany handlowe topazu — mapowane na topaz z ostrzeżeniem w raporcie
+        'topaz' => [
+            'topas', 'swiss topaz', 'sky topaz', 'niebieski topaz',
+            'blautopas', 'blue topaz', 'blautopaz',
+        ],
+        'tanzanit' => ['tansanit', 'tanzanite'],
+        'szmaragd' => ['smaragd', 'emerald'],
+        'turmalin-rozowy' => [
+            'różowy turmalin', 'rosa turmalin', 'pink tourmaline',
+            'rosa turmaline', 'różowe turmaliny',
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | RODO — §15
     |--------------------------------------------------------------------------
     */

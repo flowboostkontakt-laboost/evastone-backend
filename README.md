@@ -27,13 +27,34 @@ Kolejność obowiązkowa:
 ```bash
 php artisan db:seed                      # 1. słowniki (zamknięte listy)
 php artisan comarch:sync                 # 2. słownik Comarch (skip bez COMARCH_BASE_URL)
-php artisan comup:pull                   # 3. dump → import_products_raw  (zwraca batch ULID)
-php artisan import:normalize {batch}     # 4. mapowanie na słowniki
+php artisan comup:pull                   # 3a. kopia statyczna → import_products_raw (batch ULID)
+php artisan comup:pull --source=live     # 3b. crawl publicznej galerii evastone.eu (ComUp)
+php artisan import:normalize {batch}     # 4. mapowanie na słowniki (+aliasy kamieni)
 php artisan import:validate {batch}      # 5. reguły blokujące (§4.4)
 php artisan import:report {batch}        # 6. CSV rozbieżności dla klientki (od razu!)
 php artisan import:publish --category=pierscionki --dry-run
 php artisan import:publish               # 7. fale publikacji (upsert po model_no)
 ```
+
+### Źródła danych
+
+| Źródło | Zawartość | Stan |
+|---|---|---|
+| `mirror` (statyczna kopia prototypu, mount `/mirror`) | 27 modeli z pełnym AEO (JSON-LD) | zmigrowane |
+| `live` (crawl publicznej galerii evastone.eu) | 565 modeli: nr, materiał, kolor, kamień, 1 zdjęcie | zmigrowane co do zamkniętej listy kamieni |
+| pełny katalog ComUp (**~3000 modeli, za loginem dystrybutora**) | — | wymaga eksportu/dumpu od klienta („ścieżka 1" z dok. 17 §1) |
+
+Stary ComUp nie ma opisów, szlifów ani kolekcji — answer_summary/FAQ/alt-y dla
+źródła `live` są generowane **deterministycznie** z pól rzeczywistych
+(szablony 40–60 słów, de/en/pl), do akceptacji klientki w Filament.
+
+**Kamienie spoza listy 8** (Rubin, Perła, Ametyst, Granat, Spektrolit,
+Dublet opal, Naturalny diament, Niebieski szafir…): zgodnie z §4.4 rekordy
+są w kolejce ręcznej (`state=rejected` w Import — przegląd). Warianty zapisu
+tych samych kamieni (języki/liczba mnoga/odmiany topazu) mapuje
+`config/evastone.php → stone_aliases`, z ostrzeżeniem w raporcie.
+Rozszerzenie listy = decyzja klienta + wpis w `DictionarySeeder` +
+ponowny `import:normalize` (rejected wracają wtedy do gry automatycznie).
 
 Akceptacja treści (ścieżka krytyczna §7.3): w Filament (bulk action „Zatwierdź
 komplet tłumaczeń") albo hurtowo z CLI:
