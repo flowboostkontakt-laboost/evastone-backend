@@ -73,10 +73,25 @@ class NormalizeLiveBatch
             $stone = null;
             if (filled($stoneRaw)) {
                 [$stone, $viaAlias] = $this->matchStone($stones, $stoneRaw);
+
+                // wpis wielokamieniowy („Rubin, biały szafir i niebieski szafir")
+                // → pierwszy rozpoznany kamień jako główny + ostrzeżenie
                 if ($stone === null) {
-                    // zamknięta lista 8 — rekord NIE wchodzi do bazy produktów
+                    foreach ($this->splitStones($stoneRaw) as $token) {
+                        [$candidate, $tokenAlias] = $this->matchStone($stones, $token);
+                        if ($candidate !== null) {
+                            $stone = $candidate;
+                            $viaAlias = $tokenAlias;
+                            $warnings[] = "wiele kamieni ({$stoneRaw}) → przyjęto {$stone->slug}";
+                            break;
+                        }
+                    }
+                }
+
+                if ($stone === null) {
+                    // kamień spoza słownika — rekord NIE wchodzi do bazy (kolejka ręczna)
                     $row->update(['state' => 'rejected', 'errors' => [
-                        'blockers' => ["kamień spoza listy 8: {$stoneRaw}"],
+                        'blockers' => ["kamień spoza słownika: {$stoneRaw}"],
                     ]]);
                     $stats['rejected']++;
                     continue;
@@ -176,6 +191,14 @@ class NormalizeLiveBatch
         return [null, false];
     }
 
+    /** „X, Y i Z" / „X und Y" / „X/Y" → tokeny do dopasowania pojedynczo. */
+    private function splitStones(string $raw): array
+    {
+        $tokens = preg_split('/\s*(?:,|\/|\bi\b|\bund\b|\band\b)\s*/iu', $raw, -1, PREG_SPLIT_NO_EMPTY);
+
+        return array_map('trim', $tokens ?: []);
+    }
+
     /** KOLOR → wykończenie kanoniczne (silber|vergoldet|oxidiert|kombi). */
     private function finishFromColor(string $color): string
     {
@@ -211,7 +234,7 @@ class NormalizeLiveBatch
                 array_values(array_filter([
                     ['q' => 'Wie frage ich nach diesem Modell?', 'a' => "Nennen Sie in der Boutique die Modellnummer {$modelNo}. Wir verkaufen nicht direkt an Endkundinnen — die Verfügbarkeit prüft Ihre Verkaufsstelle."],
                     ['q' => 'Wo kann ich das Stück kaufen?', 'a' => 'EvaStone verkauft über unabhängige Boutiquen und Juweliere in Europa. Die Verkaufsstellen finden Sie auf der Händlerkarte.'],
-                    $stoneName ? ['q' => 'Welcher Stein ist verarbeitet?', 'a' => "Der Stein ist {$stoneName}. Wir arbeiten mit einer geschlossenen Liste von acht Edelsteinen; jeder Stein wird mit Namen angegeben."] : null,
+                    $stoneName ? ['q' => 'Welcher Stein ist verarbeitet?', 'a' => "Der Stein ist {$stoneName}. Wir arbeiten mit einer geschlossenen Liste von Edelsteinen; jeder Stein wird mit Namen angegeben."] : null,
                 ])),
                 "{$catName} {$modelNo} — 925 Silber | EvaStone",
                 "{$catName} {$modelNo} aus 925 Silber".($stoneName ? " mit {$stoneName}" : '').', Oberflächenstruktur EvaStone',
@@ -224,7 +247,7 @@ class NormalizeLiveBatch
                 array_values(array_filter([
                     ['q' => 'How do I ask for this model?', 'a' => "Quote model number {$modelNo} at the boutique. We do not sell directly to end customers — your store checks availability."],
                     ['q' => 'Where can I buy this piece?', 'a' => 'EvaStone sells through independent boutiques and jewellers across Europe. You will find stockists on the retailer map.'],
-                    $stoneName ? ['q' => 'Which stone is set in this piece?', 'a' => "The stone is {$stoneName}. We work with a closed list of eight gemstones; every stone is named explicitly."] : null,
+                    $stoneName ? ['q' => 'Which stone is set in this piece?', 'a' => "The stone is {$stoneName}. We work with a closed list of gemstones; every stone is named explicitly."] : null,
                 ])),
                 "{$catName} {$modelNo} — 925 sterling silver | EvaStone",
                 "{$catName} {$modelNo} in 925 sterling silver".($stoneName ? " with {$stoneName}" : '').', EvaStone surface structure',
@@ -237,7 +260,7 @@ class NormalizeLiveBatch
                 array_values(array_filter([
                     ['q' => 'Jak zapytać o ten model?', 'a' => "Podaj w butiku numer modelu {$modelNo}. Nie prowadzimy sprzedaży bezpośredniej — dostępność sprawdza punkt sprzedaży."],
                     ['q' => 'Gdzie kupię ten egzemplarz?', 'a' => 'EvaStone sprzedaje przez niezależne butiki i salony jubilerskie w Europie. Punkty sprzedaży znajdziesz na mapie dystrybutorów.'],
-                    $stoneName ? ['q' => 'Jaki kamień jest w tym egzemplarzu?', 'a' => "Kamień to {$stoneName}. Pracujemy na zamkniętej liście ośmiu kamieni; każdy kamień podajemy z nazwy."] : null,
+                    $stoneName ? ['q' => 'Jaki kamień jest w tym egzemplarzu?', 'a' => "Kamień to {$stoneName}. Pracujemy na zamkniętej liście kamieni; każdy kamień podajemy z nazwy."] : null,
                 ])),
                 "{$catName} {$modelNo} — srebro próby 925 | EvaStone",
                 "{$catName} {$modelNo} ze srebra próby 925".($stoneName ? " z kamieniem {$stoneName}" : '').', struktura powierzchni EvaStone',

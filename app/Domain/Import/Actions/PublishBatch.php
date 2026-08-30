@@ -30,7 +30,7 @@ class PublishBatch
     {
         $mirror = rtrim(config('evastone.import.mirror_path'), '/');
 
-        $stats = ['published' => 0, 'draft' => 0, 'needs_review' => 0, 'unchanged' => 0, 'skipped_unvalidated' => 0];
+        $stats = ['published' => 0, 'draft' => 0, 'needs_review' => 0, 'archived' => 0, 'unchanged' => 0, 'skipped_unvalidated' => 0];
 
         $rows = ImportProductRaw::whereIn('state', ['normalized', 'imported'])
             ->when($batchId, fn ($q) => $q->where('batch_id', $batchId))
@@ -116,6 +116,11 @@ class PublishBatch
     /** Wylicza i zapisuje status publikacji; zwraca ustawiony status. */
     private function refreshStatus(Product $product, array $blockers): string
     {
+        // archiwizacja to decyzja redakcyjna — import jej nie cofa
+        if ($product->status === 'archived') {
+            return 'archived';
+        }
+
         $product->load('translations');
 
         $status = match (true) {

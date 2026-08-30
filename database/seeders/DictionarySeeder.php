@@ -41,7 +41,7 @@ class DictionarySeeder extends Seeder
             }
         }
 
-        // ---- kamienie: 8 pozycji (dok. 03) — lista zamknięta ------------------
+        // ---- kamienie: lista zamknięta (8 z dok. 03 + rozszerzenie 30.08) -----
         $stones = [
             'topaz'               => ['de' => ['Topas', 'topas'],                                'en' => ['topaz', 'topaz'],                        'pl' => ['topaz', 'topaz']],
             'tanzanit'            => ['de' => ['Tansanit', 'tansanit'],                          'en' => ['tanzanite', 'tanzanite'],                'pl' => ['tanzanit', 'tanzanit']],
@@ -51,6 +51,25 @@ class DictionarySeeder extends Seeder
             'szafir-bialy'        => ['de' => ['weißer Saphir', 'weisser-saphir'],               'en' => ['white sapphire', 'white-sapphire'],      'pl' => ['biały szafir', 'bialy-szafir']],
             'diament-surowy'      => ['de' => ['Rohdiamantwürfel', 'rohdiamantwuerfel'],         'en' => ['rough diamond cube', 'rough-diamond-cube'], 'pl' => ['kostka surowego diamentu', 'kostka-surowego-diamentu']],
             'diament-czarny'      => ['de' => ['schwarzer Diamantwürfel', 'schwarzer-diamantwuerfel'], 'en' => ['black diamond cube', 'black-diamond-cube'], 'pl' => ['kostka czarnego diamentu', 'kostka-czarnego-diamentu']],
+
+            // ---- rozszerzenie listy — decyzja właściciela projektu 30.08.2026 --
+            // (odstępstwo od dok. 21 §3.1: realny katalog ComUp używa tych
+            // kamieni w setkach produktów; bez nich migracja odrzucała 198 poz.)
+            'diament-naturalny'   => ['de' => ['natürlicher Diamant', 'natuerlicher-diamant'],    'en' => ['natural diamond', 'natural-diamond'],    'pl' => ['naturalny diament', 'naturalny-diament']],
+            'rubin'               => ['de' => ['Rubin', 'rubin'],                                 'en' => ['ruby', 'ruby'],                          'pl' => ['rubin', 'rubin']],
+            'perla'               => ['de' => ['Perle', 'perle'],                                 'en' => ['pearl', 'pearl'],                        'pl' => ['perła', 'perla']],
+            'spektrolit'          => ['de' => ['Spektrolith', 'spektrolith'],                     'en' => ['spectrolite', 'spectrolite'],            'pl' => ['spektrolit', 'spektrolit']],
+            'ametyst'             => ['de' => ['Amethyst', 'amethyst'],                           'en' => ['amethyst', 'amethyst'],                  'pl' => ['ametyst', 'ametyst']],
+            'granat'              => ['de' => ['Granat', 'granat'],                               'en' => ['garnet', 'garnet'],                      'pl' => ['granat', 'granat']],
+            'opal-dublet'         => ['de' => ['Opal-Dublette', 'opal-dublette'],                 'en' => ['opal doublet', 'opal-doublet'],          'pl' => ['dublet opalu', 'dublet-opalu']],
+            'opal'                => ['de' => ['Opal', 'opal'],                                   'en' => ['opal', 'opal'],                          'pl' => ['opal', 'opal']],
+            'szafir-niebieski'    => ['de' => ['blauer Saphir', 'blauer-saphir'],                 'en' => ['blue sapphire', 'blue-sapphire'],        'pl' => ['niebieski szafir', 'niebieski-szafir']],
+            'peridot'             => ['de' => ['Peridot', 'peridot'],                             'en' => ['peridot', 'peridot'],                    'pl' => ['perydot', 'perydot']],
+            'oniks'               => ['de' => ['Onyx', 'onyx'],                                   'en' => ['onyx', 'onyx'],                          'pl' => ['oniks', 'oniks']],
+            'spinel'              => ['de' => ['Spinell', 'spinell'],                             'en' => ['spinel', 'spinel'],                      'pl' => ['spinel', 'spinel']],
+            'hematyt'             => ['de' => ['Hämatit', 'haematit'],                            'en' => ['hematite', 'hematite'],                  'pl' => ['hematyt', 'hematyt']],
+            'labradoryt'          => ['de' => ['Labradorit', 'labradorit'],                       'en' => ['labradorite', 'labradorite'],            'pl' => ['labradoryt', 'labradoryt']],
+            'obsydian-sniezny'    => ['de' => ['Schneeobsidian', 'schneeobsidian'],               'en' => ['snowflake obsidian', 'snowflake-obsidian'], 'pl' => ['obsydian śnieżny', 'obsydian-sniezny']],
         ];
 
         $position = 0;

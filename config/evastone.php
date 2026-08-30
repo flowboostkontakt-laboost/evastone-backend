@@ -53,8 +53,9 @@ return [
     'stone_aliases' => [
         'diament-czarny' => [
             'czarny diament', 'czarne diamenty', 'kostka czarnego diamentu',
-            'schwarz diamant', 'schwarzer diamant', 'schwarzer diamanten',
-            'schwarze diamanten', 'black diamond', 'black diamonds',
+            'schwarz diamant', 'schwarz diamanten', 'schwarzer diamant',
+            'schwarzer diamanten', 'schwarze diamanten', 'black diamond',
+            'black diamonds', 'czarny diamnet', 'czarny diamend',
         ],
         'diament-surowy' => [
             'würfel rohdiamant', 'würfel rohdiamanten', 'rohdiamant',
@@ -72,14 +73,49 @@ return [
         ],
         // odmiany handlowe topazu — mapowane na topaz z ostrzeżeniem w raporcie
         'topaz' => [
-            'topas', 'swiss topaz', 'sky topaz', 'niebieski topaz',
-            'blautopas', 'blue topaz', 'blautopaz',
+            'topas', 'swiss topaz', 'swiss topas', 'sky topaz', 'niebieski topaz',
+            'blautopas', 'blue topaz', 'blautopaz', 'blau topaz', 'blau topas',
         ],
         'tanzanit' => ['tansanit', 'tanzanite'],
-        'szmaragd' => ['smaragd', 'emerald'],
+        'szmaragd' => ['smaragd', 'smaragde', 'emerald', 'emeralds', 'szmaragdy'],
         'turmalin-rozowy' => [
             'różowy turmalin', 'rosa turmalin', 'pink tourmaline',
             'rosa turmaline', 'różowe turmaliny',
+        ],
+
+        // rozszerzenie listy (decyzja właściciela 30.08.2026) + literówki z ComUp
+        'diament-naturalny' => [
+            'naturalny diament', 'naturalne diamenty', 'natyralny diament',
+            'natyralni diamenty', 'natyralne diamenty', 'naturalne dimenty',
+            'naturalne diamnety', 'naturalne diamnety', 'naturalny szary diament',
+            'szary naturalny diament', 'szare naturalne diamenty',
+            '5 naturalnych diamentów', 'brilliant', 'brylant',
+            'natural diamond', 'natural diamonds', 'natürlicher diamant',
+            'natürliche diamanten', 'naturalny i czarny diamenty',
+        ],
+        'rubin' => ['rubin', 'rubiny', 'ruby', 'rubine', 'rubies'],
+        'perla' => ['perła', 'perla', 'perły', 'perle', 'perlen', 'pearl', 'pearls'],
+        'spektrolit' => ['spektrolit', 'spectrolite', 'spektrolith'],
+        'ametyst' => ['ametyst', 'ametysty', 'amethyst'],
+        'granat' => ['granat', 'granaty', 'garnat', 'garnet', 'granate'],
+        'opal-dublet' => [
+            'dublet opal', 'dublet opalu', 'dublette opal', 'opal dublette',
+            'opal-dublette', 'opal dublet', 'opal doublet', 'doublet opal',
+        ],
+        'opal' => ['opal'],
+        'szafir-niebieski' => [
+            'niebieski szafir', 'niebieskie szafiry', 'niebieski szafiry',
+            'blauer saphir', 'blaue saphire', 'blau saphir',
+            'blue sapphire', 'blue sapphires',
+        ],
+        'peridot' => ['peridot', 'perydot', 'oliwin'],
+        'oniks' => ['oniks', 'onyx'],
+        'spinel' => ['spinel', 'spinell'],
+        'hematyt' => ['hematyt', 'hämatit', 'hematite'],
+        'labradoryt' => ['labradoryt', 'labrodoryt', 'labradorit', 'labradorite'],
+        'obsydian-sniezny' => [
+            'obsydian śnieżny', 'śnieżny obsydian', 'schneeobsidian',
+            'snowflake obsidian',
         ],
     ],
 
