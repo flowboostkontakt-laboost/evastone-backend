@@ -1,0 +1,8 @@
+# Caddy — automatyczny HTTPS (Let's Encrypt) + reverse proxy do aplikacji.
+# DOMAIN pobierane z .env.production:
+#  - prawdziwa domena albo <IP>.sslip.io  → darmowy cert TLS automatycznie
+#  - "localhost"                          → lokalny self-signed (test)
+{$DOMAIN:localhost} {
+	encode gzip
+	reverse_proxy app:8000
+}

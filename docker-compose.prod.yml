@@ -1,0 +1,77 @@
+# Produkcyjny stack pod VM (Oracle Cloud Always Free / dowolny VPS z Dockerem).
+# Cały backend na jednej maszynie: Caddy (HTTPS) → web, worker, MySQL, Redis.
+# Media trzymane na wolumenie (dysk VM) — bez potrzeby S3/R2.
+#
+# Start:  docker compose -f docker-compose.prod.yml up -d --build
+# Logi:   docker compose -f docker-compose.prod.yml logs -f app
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    env_file: .env.production
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.render
+    restart: unless-stopped
+    env_file: .env.production
+    environment:
+      PORT: "8000"
+    volumes:
+      - media:/var/www/html/storage/app/public
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.render
+    restart: unless-stopped
+    command: php artisan queue:work --queue=imports,media,mail,default --tries=3 --timeout=900
+    env_file: .env.production
+    volumes:
+      - media:/var/www/html/storage/app/public
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_ROOT_PASSWORD}"]
+      interval: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+
+volumes:
+  dbdata:
+  media:
+  caddy_data:
+  caddy_config:
