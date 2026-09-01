@@ -1,0 +1,119 @@
+# Render Blueprint — EvaStone backend (Laravel 12 + Filament).
+# Deploy: w panelu Render → New → Blueprint → wskaż to repo. Sekrety (sync:false)
+# uzupełniasz w panelu przy pierwszym deployu. Katalog (2755 produktów) odtwarza
+# się PO deployu przez pipeline importu — patrz README sekcja „Render".
+
+databases:
+  - name: evastone-db
+    databaseName: evastone
+    user: evastone
+    plan: free            # 90 dni darmowego Postgresa; potem podnieś plan
+
+services:
+  # Redis-compatible (kolejka, cache) — mamy predis, bez rozszerzeń PHP
+  - type: keyvalue
+    name: evastone-redis
+    plan: free
+    ipAllowList: []       # tylko sieć wewnętrzna Rendera
+
+  # aplikacja webowa (strona + panel Filament /admin)
+  - type: web
+    name: evastone-web
+    runtime: docker
+    dockerfilePath: ./Dockerfile.render
+    plan: starter
+    healthCheckPath: /de/
+    envVars:
+      - fromGroup: evastone-shared
+
+  # worker kolejki: import, konwersje webp, maile
+  - type: worker
+    name: evastone-worker
+    runtime: docker
+    dockerfilePath: ./Dockerfile.render
+    plan: starter
+    dockerCommand: php artisan queue:work --queue=imports,media,mail,default --tries=3 --timeout=900
+    envVars:
+      - fromGroup: evastone-shared
+
+envVarGroups:
+  - name: evastone-shared
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        sync: false                    # `php artisan key:generate --show` → wklej w panelu
+      - key: APP_URL
+        sync: false                    # ustaw na URL serwisu web po 1. deployu
+      - key: APP_LOCALE
+        value: de
+      - key: APP_FALLBACK_LOCALE
+        value: de
+
+      # --- baza aplikacji: Render Postgres ---
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase: { name: evastone-db, property: host }
+      - key: DB_PORT
+        fromDatabase: { name: evastone-db, property: port }
+      - key: DB_DATABASE
+        fromDatabase: { name: evastone-db, property: database }
+      - key: DB_USERNAME
+        fromDatabase: { name: evastone-db, property: user }
+      - key: DB_PASSWORD
+        fromDatabase: { name: evastone-db, property: password }
+
+      # --- Redis ---
+      - key: REDIS_URL
+        fromService: { type: keyvalue, name: evastone-redis, property: connectionString }
+      - key: REDIS_CLIENT
+        value: predis
+      - key: QUEUE_CONNECTION
+        value: redis
+      - key: CACHE_STORE
+        value: redis
+      - key: SESSION_DRIVER
+        value: database
+
+      # --- import katalogu ze zdalnej bazy ComUp (read-only) ---
+      - key: COMUP_LEGACY_HOST
+        value: kacper.comup.pl
+      - key: COMUP_LEGACY_PORT
+        value: "3306"
+      - key: COMUP_LEGACY_DATABASE
+        sync: false
+      - key: COMUP_LEGACY_USERNAME
+        sync: false
+      - key: COMUP_LEGACY_PASSWORD
+        sync: false
+      - key: COMUP_UPLOAD_BASE
+        value: https://evastone.comup.pl
+
+      # --- media: obiektowy storage (Cloudflare R2 / S3), bo Render jest bezstanowy ---
+      - key: FILESYSTEM_DISK
+        value: s3
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_DEFAULT_REGION
+        value: auto
+      - key: AWS_BUCKET
+        sync: false
+      - key: AWS_ENDPOINT
+        sync: false                    # np. https://<accountid>.r2.cloudflarestorage.com
+      - key: AWS_USE_PATH_STYLE_ENDPOINT
+        value: "true"
+
+      # --- RODO / newsletter ---
+      - key: IP_PEPPER
+        generateValue: true
+      - key: NEWSLETTER_CONSENT_VERSION
+        value: nl-2026-08-1
+
+      # --- mail: log do czasu konfiguracji SMTP przez KONIK/CTO (dok. 07 §6) ---
+      - key: MAIL_MAILER
+        value: log

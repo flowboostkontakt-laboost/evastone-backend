@@ -27,6 +27,17 @@ class DictionarySeeder extends Seeder
             'kolie'       => ['de' => ['Colliers', 'colliers'],   'en' => ['Necklaces', 'necklaces'],   'pl' => ['Kolie', 'kolie']],
             'zawieszki'   => ['de' => ['Anhänger', 'anhaenger'],  'en' => ['Pendants', 'pendants'],     'pl' => ['Zawieszki', 'zawieszki']],
             'sety'        => ['de' => ['Sets', 'sets'],           'en' => ['Sets', 'sets'],             'pl' => ['Sety', 'sety']],
+
+            // ---- rozszerzenie z pełnego katalogu B2B ComUp (decyzja właściciela
+            // 31.08.2026: import wszystkich 2928 rekordów, nie tylko 6 kategorii
+            // bazowych). category_id w products jest NOT NULL, więc każdy rekord
+            // musi trafić do istniejącej kategorii — także pozycje niebiżuteryjne.
+            'unikaty'  => ['de' => ['Unikate', 'unikate'],     'en' => ['One-off pieces', 'one-off-pieces'], 'pl' => ['Unikaty', 'unikaty']],
+            'klipsy'   => ['de' => ['Clips', 'clips'],         'en' => ['Clip earrings', 'clip-earrings'],   'pl' => ['Klipsy', 'klipsy']],
+            'broszki'  => ['de' => ['Broschen', 'broschen'],   'en' => ['Brooches', 'brooches'],             'pl' => ['Broszki', 'broszki']],
+            'pudelka'  => ['de' => ['Schachteln', 'schachteln'], 'en' => ['Boxes', 'boxes'],                 'pl' => ['Pudełka', 'pudelka']],
+            'katalogi' => ['de' => ['Kataloge', 'kataloge'],   'en' => ['Catalogues', 'catalogues'],         'pl' => ['Kolekcje-Katalogi', 'katalogi']],
+            'inne'     => ['de' => ['Sonstiges', 'sonstiges'], 'en' => ['Other', 'other'],                   'pl' => ['Inne', 'inne']],
         ];
 
         $position = 0;
@@ -70,6 +81,20 @@ class DictionarySeeder extends Seeder
             'hematyt'             => ['de' => ['Hämatit', 'haematit'],                            'en' => ['hematite', 'hematite'],                  'pl' => ['hematyt', 'hematyt']],
             'labradoryt'          => ['de' => ['Labradorit', 'labradorit'],                       'en' => ['labradorite', 'labradorite'],            'pl' => ['labradoryt', 'labradoryt']],
             'obsydian-sniezny'    => ['de' => ['Schneeobsidian', 'schneeobsidian'],               'en' => ['snowflake obsidian', 'snowflake-obsidian'], 'pl' => ['obsydian śnieżny', 'obsydian-sniezny']],
+
+            // ---- II rozszerzenie — pełny katalog B2B ComUp (31.08.2026) ---------
+            // kamienie realnie użyte w setkach/dziesiątkach produktów, spoza
+            // dotychczasowej listy. Decyzja właściciela: „rozszerz o wszystkie realne".
+            'szafir'              => ['de' => ['Saphir', 'saphir'],                               'en' => ['sapphire', 'sapphire'],                  'pl' => ['szafir', 'szafir']],
+            'szafir-rozowy'       => ['de' => ['rosa Saphir', 'rosa-saphir'],                     'en' => ['pink sapphire', 'pink-sapphire'],        'pl' => ['różowy szafir', 'rozowy-szafir']],
+            'cytryn'              => ['de' => ['Citrin', 'citrin'],                               'en' => ['citrine', 'citrine'],                    'pl' => ['cytryn', 'cytryn']],
+            'amonit'              => ['de' => ['Ammonit', 'ammonit'],                             'en' => ['ammonite', 'ammonite'],                  'pl' => ['amonit', 'amonit']],
+            'larimar'             => ['de' => ['Larimar', 'larimar'],                             'en' => ['larimar', 'larimar'],                    'pl' => ['larimar', 'larimar']],
+            'lapis-lazuli'        => ['de' => ['Lapislazuli', 'lapislazuli'],                     'en' => ['lapis lazuli', 'lapis-lazuli'],          'pl' => ['lapis lazuli', 'lapis-lazuli']],
+            'turkus'              => ['de' => ['Türkis', 'tuerkis'],                              'en' => ['turquoise', 'turquoise'],                'pl' => ['turkus', 'turkus']],
+            'turmalin'            => ['de' => ['Turmalin', 'turmalin'],                           'en' => ['tourmaline', 'tourmaline'],              'pl' => ['turmalin', 'turmalin']],
+            'tygrysie-oko'        => ['de' => ['Tigerauge', 'tigerauge'],                         'en' => ["tiger's eye", 'tigers-eye'],             'pl' => ['tygrysie oko', 'tygrysie-oko']],
+            'diament-bialy'       => ['de' => ['weißer Diamant', 'weisser-diamant'],              'en' => ['white diamond', 'white-diamond'],        'pl' => ['biały diament', 'bialy-diament']],
         ];
 
         $position = 0;

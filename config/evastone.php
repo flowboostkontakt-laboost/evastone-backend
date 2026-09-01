@@ -29,6 +29,10 @@ return [
     'import' => [
         'mirror_path' => env('COMUP_MIRROR_PATH', '/mirror'),
 
+        // stary serwer ComUp serwuje pliki /upload/... publicznie (statyczne,
+        // bez logowania) — źródło zdjęć dla migracji pełnego katalogu (dump).
+        'comup_upload_base' => env('COMUP_UPLOAD_BASE', 'https://evastone.comup.pl'),
+
         // §4.4 — cena w treści → blok. Regex z dok. 17 §2 pkt 4.
         'price_regex' => '/\d+[\s,.]?\d*\s*(zł|PLN|€|EUR)/iu',
 
@@ -92,6 +96,9 @@ return [
             '5 naturalnych diamentów', 'brilliant', 'brylant',
             'natural diamond', 'natural diamonds', 'natürlicher diamant',
             'natürliche diamanten', 'naturalny i czarny diamenty',
+            'naturalny diament kostka', 'naturalne diamenty kostka',
+            'kostka naturalnego diamentu', 'natürlicher diamantwürfel',
+            'natural diamond cube',
         ],
         'rubin' => ['rubin', 'rubiny', 'ruby', 'rubine', 'rubies'],
         'perla' => ['perła', 'perla', 'perły', 'perle', 'perlen', 'pearl', 'pearls'],
@@ -109,7 +116,13 @@ return [
             'blue sapphire', 'blue sapphires',
         ],
         'peridot' => ['peridot', 'perydot', 'oliwin'],
-        'oniks' => ['oniks', 'onyx'],
+        'oniks' => ['oniks', 'onyx', 'onyks'],
+        // II rozszerzenie 31.08.2026 — warianty z pełnego katalogu B2B ComUp
+        'turmalin' => ['turmalin', 'tourmaline', 'zielony turmalin', 'grüner turmalin', 'green tourmaline', 'zielone turmaliny'],
+        'lapis-lazuli' => ['lapis lazuli', 'lapislazuli', 'lapis-lazuli'],
+        'tygrysie-oko' => ['tygrysie oko', 'tigerauge', "tiger's eye", 'tigers eye'],
+        'diament-bialy' => ['biały diament', 'białe diamenty', 'weißer diamant', 'white diamond'],
+        'szafir-rozowy' => ['różowy szafir', 'różowe szafiry', 'rosa saphir', 'pink sapphire'],
         'spinel' => ['spinel', 'spinell'],
         'hematyt' => ['hematyt', 'hämatit', 'hematite'],
         'labradoryt' => ['labradoryt', 'labrodoryt', 'labradorit', 'labradorite'],
@@ -117,6 +130,32 @@ return [
             'obsydian śnieżny', 'śnieżny obsydian', 'schneeobsidian',
             'snowflake obsidian',
         ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Newsletter i e-mail marketing — dok. 07
+    |--------------------------------------------------------------------------
+    | B2C: WYŁĄCZNIE double opt-in. Dziennik zgód musi utrwalać brzmienie
+    | zgody z chwili wyrażenia — dlatego wersjonujemy treść i zapisujemy
+    | jej snapshot w consents.evidence. Nadawca imienny (nigdy noreply@),
+    | reply-to obsługiwany przez człowieka (§5).
+    */
+    'newsletter' => [
+        // podbij wersję przy każdej zmianie treści zgody (audyt RODO)
+        'consent_version' => env('NEWSLETTER_CONSENT_VERSION', 'nl-2026-08-1'),
+
+        // brzmienie zgody per locale (PL robocze — do akceptacji klientki, dok. 07 §4.1)
+        'consent_text' => [
+            'de' => 'Ich möchte den EvaStone-Newsletter (Pflege, Händlerkarte, Verfügbarkeit) erhalten und willige in die Verarbeitung meiner E-Mail-Adresse zu diesem Zweck ein. Die Einwilligung kann ich jederzeit über den Abmeldelink widerrufen.',
+            'en' => 'I would like to receive the EvaStone newsletter (jewellery care, retailer map, availability) and consent to the processing of my email address for this purpose. I can withdraw this consent at any time via the unsubscribe link.',
+            'pl' => 'Chcę otrzymywać newsletter EvaStone (pielęgnacja, mapa dystrybutorów, dostępność) i wyrażam zgodę na przetwarzanie mojego adresu e-mail w tym celu. Zgodę mogę wycofać w każdej chwili przez link rezygnacji.',
+        ],
+
+        // nadawca — imienny, ustawiany przez KONIK; NIGDY noreply@ (dok. 07 §5)
+        'from_address' => env('NEWSLETTER_FROM_ADDRESS', 'newsletter@evastone.eu'),
+        'from_name' => env('NEWSLETTER_FROM_NAME', 'EvaStone'),
+        'reply_to' => env('NEWSLETTER_REPLY_TO', 'kontakt@evastone.eu'),
     ],
 
     /*

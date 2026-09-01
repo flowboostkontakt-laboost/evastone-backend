@@ -1,0 +1,25 @@
+# Produkcyjny obraz pod Render (web + queue). Odróżnia się od dev-owego
+# Dockerfile (bind-mount + artisan serve): KOPIUJE kod i instaluje zależności.
+FROM laravelsail/php84-composer:latest
+
+# rozszerzenia: gd (webp/avif), pdo_pgsql (baza aplikacji na Render),
+# pdo_mysql (odczyt zdalnej bazy ComUp przy imporcie), intl, exif
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libpng-dev libjpeg62-turbo-dev libwebp-dev libfreetype6-dev \
+        libavif-dev libicu-dev libpq-dev \
+    && docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype --with-avif \
+    && docker-php-ext-install -j"$(nproc)" gd intl pdo_mysql pdo_pgsql exif \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /var/www/html
+
+# warstwa zależności (cache): najpierw manifesty, potem reszta kodu
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-interaction
+
+COPY . .
+RUN composer dump-autoload --optimize --no-dev --no-interaction \
+    && chmod +x docker/render-start.sh
+
+ENV APP_ENV=production
+CMD ["docker/render-start.sh"]

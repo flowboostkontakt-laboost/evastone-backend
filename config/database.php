@@ -44,6 +44,23 @@ return [
             'transaction_mode' => 'DEFERRED',
         ],
 
+        // Baza robocza migracji ComUp: pełny dump starej platformy B2B
+        // (2928 produktów) załadowany lokalnie do osobnego schematu. Read-only,
+        // czytany przez PullFromComupDump; nie jest częścią schematu aplikacji.
+        'comup_legacy' => [
+            'driver' => 'mysql',
+            'host' => env('COMUP_LEGACY_HOST', env('DB_HOST', '127.0.0.1')),
+            'port' => env('COMUP_LEGACY_PORT', env('DB_PORT', '3306')),
+            'database' => env('COMUP_LEGACY_DATABASE', 'comup_legacy'),
+            'username' => env('COMUP_LEGACY_USERNAME', env('DB_USERNAME', 'root')),
+            'password' => env('COMUP_LEGACY_PASSWORD', env('DB_PASSWORD', '')),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),

@@ -164,11 +164,23 @@ class PublishBatch
         $media = $product->getMedia('gallery')->firstWhere('file_name', $targetName);
 
         if ($media === null && $sourcePath === null && $url !== null) {
-            $tmp = tempnam(sys_get_temp_dir(), 'evastone-img');
-            $body = \Illuminate\Support\Facades\Http::timeout(30)->retry(3, 1000, throw: false)->get($url);
-            if (! $body->successful()) {
-                return; // walidacja miała URL — błąd pobrania zostawia produkt bez media (raport wychwyci)
+            try {
+                $body = \Illuminate\Support\Facades\Http::timeout(30)->retry(2, 1000, throw: false)->get($url);
+            } catch (\Throwable) {
+                // błąd transportowy (reset/timeout/DNS) NIE może wywalić całej
+                // publikacji — produkt zostaje bez media, kolejny przebieg ponowi
+                return;
             }
+
+            // pobrany zasób musi być realnym obrazem, nie stroną 404/HTML —
+            // inaczej medialibrary wywala się na wykrywaniu typu MIME
+            if (! $body->successful()
+                || ! str_starts_with((string) $body->header('Content-Type'), 'image/')
+                || @getimagesizefromstring($body->body()) === false) {
+                return;
+            }
+
+            $tmp = tempnam(sys_get_temp_dir(), 'evastone-img');
             file_put_contents($tmp, $body->body());
             $sourcePath = $tmp;
         }
