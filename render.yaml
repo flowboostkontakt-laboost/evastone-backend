@@ -62,11 +62,25 @@ envVarGroups:
       - key: SESSION_DRIVER
         value: database
 
-      # media: dysk instancji (na free ulotne; R2 dołożymy dla trwałości)
+      # media: Cloudflare R2 (trwałe, publicznie serwowane przez URL r2.dev)
       - key: FILESYSTEM_DISK
-        value: public
+        value: s3
       - key: MEDIA_DISK
-        value: public
+        value: s3
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_DEFAULT_REGION
+        value: auto
+      - key: AWS_BUCKET
+        value: evastone-media
+      - key: AWS_ENDPOINT
+        value: https://1884db42a6996f62b06a716a38e6d979.r2.cloudflarestorage.com
+      - key: AWS_URL
+        sync: false                    # publiczny URL r2.dev (bez niego zdjęcia nie wyświetlą się)
+      - key: AWS_USE_PATH_STYLE_ENDPOINT
+        value: "true"
 
       # import katalogu ze zdalnej bazy ComUp (read-only)
       - key: COMUP_LEGACY_HOST
