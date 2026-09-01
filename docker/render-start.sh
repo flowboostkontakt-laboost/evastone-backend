@@ -2,6 +2,14 @@
 # Render — start web serwisu (dok. deploy). Idempotentne: bezpieczne przy każdym redeployu.
 set -euo pipefail
 
+# APP_KEY: użyj z env; jeśli pusty (grupa sync:false nieuzupełniona), wygeneruj —
+# żeby deploy nie padał na MissingAppKeyException. Dla trwałych sesji ustaw
+# stały APP_KEY w zmiennych środowiskowych Render.
+if [ -z "${APP_KEY:-}" ]; then
+  export APP_KEY="$(php -r 'echo "base64:".base64_encode(random_bytes(32));')"
+  echo ">> APP_KEY nie był ustawiony — wygenerowano tymczasowy na czas tego uruchomienia"
+fi
+
 php artisan storage:link || true
 php artisan filament:assets
 
