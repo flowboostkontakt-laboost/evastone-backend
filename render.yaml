@@ -1,30 +1,24 @@
-# Render Blueprint — EvaStone backend (Laravel 12 + Filament).
-# Deploy: w panelu Render → New → Blueprint → wskaż to repo. Sekrety (sync:false)
-# uzupełniasz w panelu przy pierwszym deployu. Katalog (2755 produktów) odtwarza
-# się PO deployu przez pipeline importu — patrz DEPLOY-RENDER.md.
+# Render Blueprint — EvaStone backend (Laravel 12 + Filament), plan DARMOWY.
+# Kompromisy free: web usypia po ~15 min bezczynności, Postgres free wygasa
+# po ~30 dniach, brak osobnego workera (kolejka działa inline: QUEUE=sync).
+# Media na dysku instancji (ulotne na free) — docelowo R2/S3 (dodamy AWS_*).
 #
-# Uwaga: fromDatabase/fromService NIE mogą być w envVarGroups (walidator Render),
-# więc powiązania DB/Redis są wpisane wprost w każdym serwisie; reszta jest w grupie.
+# Deploy: panel Render → New → Blueprint → wskaż repo → Retry. Sekrety (sync:false)
+# uzupełniasz przy pierwszym deployu.
 
 databases:
   - name: evastone-db
     databaseName: evastone
     user: evastone
-    plan: free            # 90 dni darmowego Postgresa; potem podnieś plan
+    plan: free
 
 services:
-  # Redis-compatible (kolejka, cache) — mamy predis, bez rozszerzeń PHP
-  - type: keyvalue
-    name: evastone-redis
-    plan: free
-    ipAllowList: []       # tylko sieć wewnętrzna Rendera
-
-  # aplikacja webowa (strona + panel Filament /admin)
+  # aplikacja webowa (strona + panel Filament /admin). Bez workera na free.
   - type: web
     name: evastone-web
     runtime: docker
+    plan: free
     dockerfilePath: ./Dockerfile.render
-    plan: starter
     healthCheckPath: /de/
     envVars:
       - fromGroup: evastone-shared
@@ -40,34 +34,8 @@ services:
         fromDatabase: { name: evastone-db, property: user }
       - key: DB_PASSWORD
         fromDatabase: { name: evastone-db, property: password }
-      - key: REDIS_URL
-        fromService: { type: keyvalue, name: evastone-redis, property: connectionString }
 
-  # worker kolejki: import, konwersje webp, maile
-  - type: worker
-    name: evastone-worker
-    runtime: docker
-    dockerfilePath: ./Dockerfile.render
-    plan: starter
-    dockerCommand: php artisan queue:work --queue=imports,media,mail,default --tries=3 --timeout=900
-    envVars:
-      - fromGroup: evastone-shared
-      - key: DB_CONNECTION
-        value: pgsql
-      - key: DB_HOST
-        fromDatabase: { name: evastone-db, property: host }
-      - key: DB_PORT
-        fromDatabase: { name: evastone-db, property: port }
-      - key: DB_DATABASE
-        fromDatabase: { name: evastone-db, property: database }
-      - key: DB_USERNAME
-        fromDatabase: { name: evastone-db, property: user }
-      - key: DB_PASSWORD
-        fromDatabase: { name: evastone-db, property: password }
-      - key: REDIS_URL
-        fromService: { type: keyvalue, name: evastone-redis, property: connectionString }
-
-# współdzielone (stałe + sekrety + generowane) — bez powiązań fromDatabase/fromService
+# współdzielone (stałe + sekrety + generowane)
 envVarGroups:
   - name: evastone-shared
     envVars:
@@ -76,23 +44,27 @@ envVarGroups:
       - key: APP_DEBUG
         value: false
       - key: APP_KEY
-        sync: false                    # `php artisan key:generate --show` → wklej w panelu
+        sync: false                    # base64:... (dam Ci gotowy)
       - key: APP_URL
-        sync: false                    # ustaw na URL serwisu web po 1. deployu
+        sync: false                    # URL serwisu web po 1. deployu
       - key: APP_LOCALE
         value: de
       - key: APP_FALLBACK_LOCALE
         value: de
 
-      # Redis (predis) + drivery kolejki/cache/sesji
-      - key: REDIS_CLIENT
-        value: predis
+      # bez Redisa/workera na free — kolejka inline, cache i sesja w bazie
       - key: QUEUE_CONNECTION
-        value: redis
+        value: sync
       - key: CACHE_STORE
-        value: redis
+        value: database
       - key: SESSION_DRIVER
         value: database
+
+      # media: dysk instancji (na free ulotne; R2 dołożymy dla trwałości)
+      - key: FILESYSTEM_DISK
+        value: public
+      - key: MEDIA_DISK
+        value: public
 
       # import katalogu ze zdalnej bazy ComUp (read-only)
       - key: COMUP_LEGACY_HOST
@@ -108,28 +80,12 @@ envVarGroups:
       - key: COMUP_UPLOAD_BASE
         value: https://evastone.comup.pl
 
-      # media: obiektowy storage (Cloudflare R2 / S3), bo Render jest bezstanowy
-      - key: FILESYSTEM_DISK
-        value: s3
-      - key: AWS_ACCESS_KEY_ID
-        sync: false
-      - key: AWS_SECRET_ACCESS_KEY
-        sync: false
-      - key: AWS_DEFAULT_REGION
-        value: auto
-      - key: AWS_BUCKET
-        sync: false
-      - key: AWS_ENDPOINT
-        sync: false                    # np. https://<accountid>.r2.cloudflarestorage.com
-      - key: AWS_USE_PATH_STYLE_ENDPOINT
-        value: "true"
-
       # RODO / newsletter
       - key: IP_PEPPER
         generateValue: true
       - key: NEWSLETTER_CONSENT_VERSION
         value: nl-2026-08-1
 
-      # mail: log do czasu konfiguracji SMTP przez KONIK/CTO (dok. 07 §6)
+      # mail: log do czasu konfiguracji SMTP (CTO, dok. 07 §6)
       - key: MAIL_MAILER
         value: log
