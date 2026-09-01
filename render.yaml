@@ -19,7 +19,7 @@ services:
     runtime: docker
     plan: free
     dockerfilePath: ./Dockerfile.render
-    healthCheckPath: /de/
+    healthCheckPath: /up          # wbudowany health Laravela — nie dotyka bazy
     envVars:
       - fromGroup: evastone-shared
       - key: DB_CONNECTION
@@ -43,6 +43,8 @@ envVarGroups:
         value: production
       - key: APP_DEBUG
         value: false
+      - key: LOG_CHANNEL
+        value: stderr             # wyjątki widoczne w logach Render
       - key: APP_KEY
         sync: false                    # base64:... (dam Ci gotowy)
       - key: APP_URL
