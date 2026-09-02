@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Web\CatalogController;
 use App\Http\Controllers\Web\NewsletterController;
-use App\Http\Controllers\Web\ProductController;
+use App\Http\Controllers\Web\PageController;
 use Illuminate\Support\Facades\Route;
 
 // §8.1 — struktura URL. x-default = de (rynek główny).
@@ -18,15 +17,7 @@ Route::get('/newsletter/confirm/{token}', [NewsletterController::class, 'confirm
 Route::get('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'unsubscribe'])
     ->middleware('throttle:30,1')->name('newsletter.unsubscribe');
 
-// /{locale}/ → katalog sekcji (front landing na razie = katalog)
-Route::get('/{locale}/', function (string $locale) {
-    abort_unless(in_array($locale, config('evastone.locales'), true), 404);
-    return redirect('/'.$locale.'/'.config("evastone.catalog_sections.{$locale}").'/');
-})->where('locale', 'de|en|pl');
-
-// katalog: wszystkie produkty i per kategoria
-Route::get('/{locale}/{section}/', [CatalogController::class, 'index'])->where('locale', 'de|en|pl');
-Route::get('/{locale}/{section}/{category}/', [CatalogController::class, 'index'])->where('locale', 'de|en|pl');
-
-// strona produktu
-Route::get('/{locale}/{section}/{category}/{slug}/', [ProductController::class, 'show'])->where('locale', 'de|en|pl');
+// Dyspozytor: strona główna, katalog (dynamiczny), podstrony (statyczne).
+Route::get('/{locale}', [PageController::class, 'handle'])->where('locale', 'de|en|pl');
+Route::get('/{locale}/{path}', [PageController::class, 'handle'])
+    ->where(['locale' => 'de|en|pl', 'path' => '.*']);

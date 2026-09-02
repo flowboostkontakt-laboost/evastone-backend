@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="de" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+  analytics_storage: 'denied', functionality_storage: 'granted', security_storage: 'granted',
+  wait_for_update: 500
+});
+</script>
+
+<title>Journal — Wissen für den Facheinzelhandel | EvaStone</title>
+<meta name="description" content="Beiträge für unabhängige Boutiquen: Oberflächenstruktur, Pflege von 925 Silber, Edelsteine aus geschlossener Liste, Vitrinengestaltung.">
+
+<link rel="canonical" href="https://evastone.eu/de/journal/">
+<link rel="alternate" hreflang="de" href="https://evastone.eu/de/journal/">
+<link rel="alternate" hreflang="en" href="https://evastone.eu/en/journal/">
+<link rel="alternate" hreflang="pl" href="https://evastone.eu/pl/journal/">
+<link rel="alternate" hreflang="x-default" href="https://evastone.eu/de/journal/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EvaStone">
+<meta property="og:locale" content="de">
+<meta property="og:title" content="Journal — Wissen für den Facheinzelhandel | EvaStone">
+<meta property="og:description" content="Beiträge für unabhängige Boutiquen: Oberflächenstruktur, Pflege von 925 Silber, Edelsteine aus geschlossener Liste, Vitrinengestaltung.">
+<meta property="og:image" content="https://evastone.eu/img/photo/hero-partner-ring-am-fels-1440.webp">
+
+<link rel="preload" href="../../fonts/dm-serif-display-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../fonts/noto-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+
+
+<link rel="stylesheet" href="../../assets/app.css">
+<link rel="icon" href="../../logo/evastone-sygnet-maska.png" type="image/png">
+<meta name="theme-color" content="#efe7da">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Blog", "@id": "https://evastone.eu/de/journal/#blog",
+      "url": "https://evastone.eu/de/journal/", "name": "Journal — Wissen für den Facheinzelhandel | EvaStone",
+      "inLanguage": "de", "publisher": { "@id": "https://evastone.eu/#organization" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "EvaStone", "item": "https://evastone.eu/de/" },
+      { "@type": "ListItem", "position": 2, "name": "Journal", "item": "https://evastone.eu/de/journal/" } ] }
+  ]
+}
+</script>
+</head>
+
+<body class="min-h-dvh flex flex-col bg-papier text-tusz">
+<a class="skip" href="#tresc">Zum Inhalt springen</a>
+
+
+<header x-data="nawigacja()" @keydown.escape.window="menu = false">
+
+  
+  <div class="sticky top-0 lg:static z-40 bg-papier/95 backdrop-blur-md lg:bg-papier lg:backdrop-blur-none border-b border-linia">
+    <div class="siatka items-center py-3 lg:py-4">
+      <a href="../../de/" class="col-span-7 md:col-span-5 flex items-center gap-3.5 no-underline text-tusz">
+        <span class="sygnet w-9 h-9 shrink-0 lg:hidden" role="img" aria-label="Signet EvS"></span>
+        <span class="min-w-0">
+          <img src="../../logo/evastone-wordmark.svg" alt="EvaStone" width="132" height="20"
+               class="h-4 lg:h-[1.2rem] w-auto" fetchpriority="high">
+          <span class="block text-[0.67rem] text-glos leading-tight mt-1 tracking-wide">Autorenschmuck in 925 Silber für unabhängige Boutiquen</span>
+        </span>
+      </a>
+
+      <div class="col-span-5 md:col-span-7 flex items-center justify-end gap-2.5 md:gap-5">
+        <div class="hidden md:flex items-center gap-1 text-caption" role="group" aria-label="Sprache">
+              <span class="px-1.5 py-1 font-bold uppercase text-tusz" aria-current="true">de</span>
+              <a href="../../en/journal/" hreflang="en" class="px-1.5 py-1 text-szept no-underline hover:text-tusz uppercase">en</a>
+              <a href="../../pl/journal/" hreflang="pl" class="px-1.5 py-1 text-szept no-underline hover:text-tusz uppercase">pl</a>
+        </div>
+
+        <a href="../../de/wholesale/" class="btn btn-glowny hidden md:inline-flex"
+>Für Händler: Konditionen</a>
+
+        
+        <button type="button"
+                class="lg:hidden inline-flex items-center gap-2.5 min-h-11 px-3 border border-tusz
+                       text-caption font-bold tracking-[0.14em] uppercase text-tusz bg-transparent cursor-pointer"
+                @click="menu = !menu" :aria-expanded="menu.toString()" aria-controls="menu-glowne">
+          <span x-text="menu ? 'Menü schließen' : 'Menu'">Menu</span>
+          <span class="relative w-4 h-3 shrink-0" aria-hidden="true">
+            <span class="absolute left-0 top-0 w-4 h-px bg-current transition-transform duration-300"
+                  :class="menu ? 'translate-y-[5.5px] rotate-45' : ''"></span>
+            <span class="absolute left-0 top-[5.5px] w-4 h-px bg-current transition-opacity duration-200"
+                  :class="menu ? 'opacity-0' : ''"></span>
+            <span class="absolute left-0 bottom-0 w-4 h-px bg-current transition-transform duration-300"
+                  :class="menu ? '-translate-y-[5.5px] -rotate-45' : ''"></span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="pas">
+    <span class="pas-postep" aria-hidden="true"></span>
+
+    <div class="flex flex-col items-center gap-5">
+      <a href="../../de/" class="text-tusz no-underline" aria-label="EvaStone">
+        <span class="sygnet w-8 h-8 block" role="img" aria-label="Signet EvS"></span>
+      </a>
+      <button type="button"
+              class="flex flex-col items-center gap-1.5 py-2 px-2 bg-transparent border-0 cursor-pointer text-tusz group"
+              @click="menu = !menu" :aria-expanded="menu.toString()" aria-controls="menu-glowne"
+              :aria-label="menu ? 'Menü schließen' : 'Menü öffnen'">
+        <span class="block w-5 h-px bg-current transition-transform duration-300 group-hover:scale-x-75" aria-hidden="true"></span>
+        <span class="block w-5 h-px bg-current" aria-hidden="true"></span>
+        <span class="block w-5 h-px bg-current transition-transform duration-300 group-hover:scale-x-75" aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <span class="pas-pion select-none" aria-hidden="true">Autorenschmuck in 925 Silber für unabhängige Boutiquen</span>
+
+    <div class="flex flex-col items-center gap-1 text-caption" role="group" aria-label="Sprache">
+          <span class="px-1 py-0.5 font-bold uppercase text-tusz" aria-current="true">de</span>
+          <a href="../../en/journal/" hreflang="en" class="px-1 py-0.5 text-szept no-underline hover:text-tusz uppercase">en</a>
+          <a href="../../pl/journal/" hreflang="pl" class="px-1 py-0.5 text-szept no-underline hover:text-tusz uppercase">pl</a>
+    </div>
+  </div>
+
+  
+  <div id="menu-glowne" x-show="menu" x-cloak style="display:none" class="fixed inset-0 z-50">
+    <div class="absolute inset-0 bg-tusz/35" aria-hidden="true" @click="menu = false"
+         x-transition.opacity.duration.250ms></div>
+
+    <div class="absolute inset-y-0 left-0 w-full max-w-[30rem] bg-tusz text-papier overflow-y-auto ziarno ziarno-lekkie flex flex-col"
+         x-transition:enter="transition-transform duration-300 ease-out"
+         x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
+         x-transition:leave="transition-transform duration-250 ease-in"
+         x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full">
+
+      <div class="flex items-center justify-between px-7 md:px-10 pt-6">
+        <span class="sygnet w-9 h-9 text-papier" role="img" aria-label="Signet EvS"></span>
+        <button type="button" class="p-2 bg-transparent border-0 cursor-pointer text-papier/80 hover:text-papier"
+                @click="menu = false" aria-label="Menü schließen">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M5 5l14 14M19 5L5 19"/>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="px-7 md:px-10 py-8 flex-1" aria-label="Hauptnavigation">
+        <ul class="list-none p-0 m-0">
+          <li class="border-b border-papier/15">
+            <a href="../../de/schmuck/"
+               class="group flex items-center py-3.5 md:py-4 no-underline text-papier">
+              <span class="font-display text-h1 leading-none group-hover:translate-x-2 transition-transform duration-300">
+                Schmuck
+              </span>
+            </a>
+          </li>
+          <li class="border-b border-papier/15">
+            <a href="../../de/wholesale/"
+               class="group flex items-center py-3.5 md:py-4 no-underline text-papier">
+              <span class="font-display text-h1 leading-none group-hover:translate-x-2 transition-transform duration-300">
+                Für Händler
+              </span>
+            </a>
+          </li>
+          <li class="border-b border-papier/15">
+            <a href="../../de/haendlerkarte/"
+               class="group flex items-center py-3.5 md:py-4 no-underline text-papier">
+              <span class="font-display text-h1 leading-none group-hover:translate-x-2 transition-transform duration-300">
+                Verkaufsstellen
+              </span>
+            </a>
+          </li>
+          <li class="border-b border-papier/15">
+            <a href="../../de/atelier/"
+               class="group flex items-center py-3.5 md:py-4 no-underline text-papier">
+              <span class="font-display text-h1 leading-none group-hover:translate-x-2 transition-transform duration-300">
+                Atelier
+              </span>
+            </a>
+          </li>
+          <li class="border-b border-papier/15">
+            <a href="../../de/messe/"
+               class="group flex items-center py-3.5 md:py-4 no-underline text-papier">
+              <span class="font-display text-h1 leading-none group-hover:translate-x-2 transition-transform duration-300">
+                Messen
+              </span>
+            </a>
+          </li>
+          <li class="border-b border-papier/15">
+            <a href="../../de/journal/"
+               class="group flex items-center py-3.5 md:py-4 no-underline text-papier">
+              <span class="font-display text-h1 leading-none group-hover:translate-x-2 transition-transform duration-300">
+                Journal
+              </span>
+            </a>
+          </li>
+          <li class="border-b border-papier/15">
+            <a href="../../de/kontakt/"
+               class="group flex items-center py-3.5 md:py-4 no-underline text-papier">
+              <span class="font-display text-h1 leading-none group-hover:translate-x-2 transition-transform duration-300">
+                Kontakt
+              </span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="px-7 md:px-10 pb-8">
+        <div class="flex md:hidden gap-4 text-caption mb-6" role="group" aria-label="Sprache">
+<span class="font-bold text-papier uppercase" aria-current="true">Deutsch</span><a href="../../en/journal/" hreflang="en" class="link-nav text-papier/70 uppercase">English</a>
+<a href="../../pl/journal/" hreflang="pl" class="link-nav text-papier/70 uppercase">Polski</a>
+        </div>
+        <a href="mailto:kontakt@evastone.eu" class="link-podkreslony text-papier/85 text-body inline-block">kontakt@evastone.eu</a>
+        <div class="mt-6">
+          <a href="../../de/wholesale/" class="btn btn-kontra">Für Händler: Konditionen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="tresc" class="flex-1">
+
+<nav aria-label="Breadcrumb" class="siatka pt-6">
+  
+  <ol class="col-span-12 flex flex-nowrap items-center gap-x-2 etykieta text-szept list-none p-0 m-0
+             overflow-x-auto whitespace-nowrap [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-h-6">
+    <li class="flex items-center gap-2">
+        <a href="../../de/" class="link-nav text-szept hover:text-tusz">EvaStone</a>
+        <span aria-hidden="true" class="opacity-50">/</span>
+    </li>
+    <li class="flex items-center gap-2">
+        <span class="text-tusz" aria-current="page">Journal</span>
+    </li>
+  </ol>
+</nav>
+
+<section class="pt-12 pb-14 md:pt-16 md:pb-20" aria-labelledby="jo-h1">
+  <div class="siatka">
+    <header class="col-span-12">
+      <p class="etykieta punca text-glos">Journal</p>
+      <h1 id="jo-h1" class="text-mega [hyphens:auto] mt-5 text-balance max-w-[14ch]">Wissen für die Vitrine.</h1>
+    </header>
+    <p class="col-span-12 md:col-span-6 md:col-start-7 lg:col-span-5 lg:col-start-8 text-body mt-9 miara text-glos border-t border-linia pt-6">Beiträge für unabhängige Boutiquen: worauf Kundinnen bei der Oberfläche reagieren, wie 925 Silber gepflegt wird und warum die Steinliste geschlossen ist.</p>
+  </div>
+</section>
+
+
+<section class="pb-20 md:pb-28" aria-label="Alle Beiträge">
+  <div class="siatka">
+    <ul class="col-span-12 list-none p-0 m-0 border-t border-tusz">
+      <li class="border-b border-linia">
+        <a href="../../de/journal/oxidiertes-silber-patina-oder-schaden/" class="group grid md:grid-cols-12 gap-x-6 gap-y-4 py-9 no-underline text-tusz items-start">
+          <div class="md:col-span-3 grupa-kadr">
+            <div class="kadr bg-plotno">
+              <picture>
+  <source type="image/avif" sizes="(min-width: 768px) 24vw, 90vw"
+          srcset="../../img/photo/struktur-makro-ringe-oxidiert-640.avif 640w, ../../img/photo/struktur-makro-ringe-oxidiert-960.avif 960w, ../../img/photo/struktur-makro-ringe-oxidiert-1440.avif 1440w">
+  <source type="image/webp" sizes="(min-width: 768px) 24vw, 90vw"
+          srcset="../../img/photo/struktur-makro-ringe-oxidiert-640.webp 640w, ../../img/photo/struktur-makro-ringe-oxidiert-960.webp 960w, ../../img/photo/struktur-makro-ringe-oxidiert-1440.webp 1440w">
+  <img src="../../img/photo/struktur-makro-ringe-oxidiert-1440.webp"
+       alt="Wird oxidiertes Silber schwarz? Patina und Schaden auseinanderhalten"
+       class="w-full aspect-[4/3] object-cover"
+       width="1440"
+       height="1080"
+loading="lazy" decoding="async"       style="background-image:url(data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAAAwBACdASoYABIAPu1qrVCppaQiqAqpMB2JZwAAJFUrBjNAHNa31UctT/AA/p7rIU4t4dz/MScVlFDfU7DuYKOdIISzAmeGV7UGpVlxgtjfhmk7BtxjDFGsK9H5kPu+W9a4B329iUlAAAAA);background-size:cover;background-position:center">
+</picture>
+
+            </div>
+          </div>
+          <div class="md:col-span-7 md:pl-4">
+            <p class="etykieta punca text-szept">
+              <time datetime="2026-08-12" class="liczba">2026-08-12</time> · 4 Min. Lesezeit
+            </p>
+            <h2 class="font-display text-h1 mt-3 text-balance group-hover:translate-x-2 transition-transform duration-300">Wird oxidiertes Silber schwarz? Patina und Schaden auseinanderhalten</h2>
+            <p class="text-body mt-3 miara text-glos">Oxidierung ist bei EvaStone ein gestaltetes Element und keine Alterung. Sie sitzt in den Vertiefungen der Oberflächenstruktur und zeichnet das Muster nach. Was sich mit dem Tragen verändert,…</p>
+          </div>
+          <p class="md:col-span-2 md:text-right etykieta text-tusz flex md:justify-end items-center gap-2 m-0">
+            Beitrag lesen <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"
+     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+
+          </p>
+        </a>
+      </li>
+      <li class="border-b border-linia">
+        <a href="../../de/journal/warum-die-steinliste-geschlossen-ist/" class="group grid md:grid-cols-12 gap-x-6 gap-y-4 py-9 no-underline text-tusz items-start">
+          <div class="md:col-span-3 grupa-kadr">
+            <div class="kadr bg-plotno">
+              <picture>
+  <source type="image/avif" sizes="(min-width: 768px) 24vw, 90vw"
+          srcset="../../img/photo/silber-oberflaechenstruktur-640.avif 640w, ../../img/photo/silber-oberflaechenstruktur-960.avif 960w, ../../img/photo/silber-oberflaechenstruktur-1440.avif 1440w">
+  <source type="image/webp" sizes="(min-width: 768px) 24vw, 90vw"
+          srcset="../../img/photo/silber-oberflaechenstruktur-640.webp 640w, ../../img/photo/silber-oberflaechenstruktur-960.webp 960w, ../../img/photo/silber-oberflaechenstruktur-1440.webp 1440w">
+  <img src="../../img/photo/silber-oberflaechenstruktur-1440.webp"
+       alt="Warum unsere Steinliste geschlossen ist — und was Sie davon haben"
+       class="w-full aspect-[4/3] object-cover"
+       width="1440"
+       height="1080"
+loading="lazy" decoding="async"       style="background-image:url(data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAADQBACdASoYABIAPu1kqk2ppaQiMAgBMB2JZwDOdCFU/Q2Tn/nXvGLvho4Dl55RnAD+83UyRbZL8bU8POBm41UXVZUj/8dILlcbsRBl8I1v7+JRmI/qcDmEt5HIV2L4qs5W4+gjWyRfoyhHlAXc1SIan0jUenJUG0261tpthrm/JZPkhUDU1UsxsAA=);background-size:cover;background-position:center">
+</picture>
+
+            </div>
+          </div>
+          <div class="md:col-span-7 md:pl-4">
+            <p class="etykieta punca text-szept">
+              <time datetime="2026-08-05" class="liczba">2026-08-05</time> · 3 Min. Lesezeit
+            </p>
+            <h2 class="font-display text-h1 mt-3 text-balance group-hover:translate-x-2 transition-transform duration-300">Warum unsere Steinliste geschlossen ist — und was Sie davon haben</h2>
+            <p class="text-body mt-3 miara text-glos">EvaStone arbeitet mit acht Edelsteinen und vier Schliffen. Nicht mehr. Das klingt nach Einschränkung und ist in der Vitrine ein Vorteil: Ihre Kundin lernt die Steine wiederzuerkennen, und Si…</p>
+          </div>
+          <p class="md:col-span-2 md:text-right etykieta text-tusz flex md:justify-end items-center gap-2 m-0">
+            Beitrag lesen <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"
+     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+
+          </p>
+        </a>
+      </li>
+      <li class="border-b border-linia">
+        <a href="../../de/journal/was-in-der-vitrine-zuerst-gesehen-wird/" class="group grid md:grid-cols-12 gap-x-6 gap-y-4 py-9 no-underline text-tusz items-start">
+          <div class="md:col-span-3 grupa-kadr">
+            <div class="kadr bg-plotno">
+              <picture>
+  <source type="image/avif" sizes="(min-width: 768px) 24vw, 90vw"
+          srcset="../../img/photo/werkstatt-pinzette-rohdiamant-640.avif 640w, ../../img/photo/werkstatt-pinzette-rohdiamant-960.avif 960w, ../../img/photo/werkstatt-pinzette-rohdiamant-1440.avif 1440w">
+  <source type="image/webp" sizes="(min-width: 768px) 24vw, 90vw"
+          srcset="../../img/photo/werkstatt-pinzette-rohdiamant-640.webp 640w, ../../img/photo/werkstatt-pinzette-rohdiamant-960.webp 960w, ../../img/photo/werkstatt-pinzette-rohdiamant-1440.webp 1440w">
+  <img src="../../img/photo/werkstatt-pinzette-rohdiamant-1440.webp"
+       alt="Was in der Vitrine zuerst gesehen wird — und wie Sie Struktur sichtbar machen"
+       class="w-full aspect-[4/3] object-cover"
+       width="1440"
+       height="1440"
+loading="lazy" decoding="async"       style="background-image:url(data:image/webp;base64,UklGRqQAAABXRUJQVlA4IJgAAABQBQCdASoYABgAPu1ur1IppiQiqAgBMB2JaQAD5Vi0Wxnclr0oL3yyLNegprICVOoTsAAA4e3tPwqHbEpnozmJlDjpUqNNI1YblAw9Yn6nTe+hSx+qsjuh9t9SoLByD+VbgOQzBfoGXxIBvPTR0o5QDumNmWf32YW/OWMODnOmq2JPH9Al4LpR+kG3sci78/0iHagiSX0AAA==);background-size:cover;background-position:center">
+</picture>
+
+            </div>
+          </div>
+          <div class="md:col-span-7 md:pl-4">
+            <p class="etykieta punca text-szept">
+              <time datetime="2026-07-29" class="liczba">2026-07-29</time> · 5 Min. Lesezeit
+            </p>
+            <h2 class="font-display text-h1 mt-3 text-balance group-hover:translate-x-2 transition-transform duration-300">Was in der Vitrine zuerst gesehen wird — und wie Sie Struktur sichtbar machen</h2>
+            <p class="text-body mt-3 miara text-glos">Eine Kundin entscheidet im Vorbeigehen, ob sie stehen bleibt. Nicht der Preis entscheidet das und nicht das Schild, sondern ob im Schaufenster etwas passiert, das sie drei Straßen früher nic…</p>
+          </div>
+          <p class="md:col-span-2 md:text-right etykieta text-tusz flex md:justify-end items-center gap-2 m-0">
+            Beitrag lesen <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"
+     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+
+          </p>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+
+<section class="bg-tusz text-papier ziarno" aria-label="Wir verkaufen nicht direkt. Ihre Boutique tut es.">
+  <div class="siatka py-20 md:py-28 gap-y-14">
+    <div class="col-span-12 md:col-span-6 md:pr-10">
+      <p class="etykieta punca text-papier/70">Sie möchten ein Stück tragen</p>
+      <h2 class="text-display mt-5 text-balance max-w-[18ch]">Wir verkaufen nicht direkt. Ihre Boutique tut es.</h2>
+      <p class="text-body mt-5 miara-waska text-papier/80">Finden Sie die nächste Verkaufsstelle oder fragen Sie dort nach einem Modell — mit der Modellnummer geht es am schnellsten.</p>
+      <div class="mt-9 flex flex-wrap gap-3">
+        <a href="../../de/haendlerkarte/" class="btn btn-kontra">Verkaufsstelle finden</a>
+        <a href="../../de/schmuck/" class="btn btn-kontra-drugi">Nach Verfügbarkeit fragen</a>
+      </div>
+    </div>
+
+    <div class="col-span-12 md:col-span-6 md:border-l md:border-papier/20 md:pl-10">
+      <p class="etykieta punca text-papier/70">Sie führen eine Boutique</p>
+      <h2 class="text-display mt-5 text-balance max-w-[18ch]">Erste Bestellung ab 4–5 Sets.</h2>
+      <p class="text-body mt-5 miara-waska text-papier/80">Nachbestellung ab 1 Stück, volle Größenrange, Startpaket und Contentpaket ab der ersten Lieferung. Der Whitelabel-Shop kommt nach 2–3 Bestellungen dazu.</p>
+      <div class="mt-9">
+        <a href="../../de/wholesale/" class="btn btn-kontra">Konditionen ansehen <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"
+     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+
+<footer class="border-t border-tusz pt-14 pb-10 mt-auto" aria-label="Fußbereich">
+  <div class="siatka gap-y-12">
+
+    <div class="col-span-12 md:col-span-4">
+      <span class="sygnet w-10 h-10 text-tusz block" role="img" aria-label="Signet EvS"></span>
+      <img src="../../logo/evastone-wordmark.svg" alt="EvaStone" width="190" height="29" class="h-5 w-auto mt-5" loading="lazy">
+      <p class="text-caption text-glos mt-2">Autorenschmuck in 925 Silber für unabhängige Boutiquen</p>
+      <p class="etykieta punca text-glos mt-6">Den Liefertermin bestätigen wir individuell bei der Bestellung.</p>
+      <a href="mailto:kontakt@evastone.eu" class="link-podkreslony text-tusz text-body mt-5 inline-block">kontakt@evastone.eu</a>
+    </div>
+
+    <nav class="col-span-12 sm:col-span-6 md:col-span-4 md:col-start-6" aria-label="Navigation">
+      <p class="etykieta punca text-glos">Navigation</p>
+      <ul class="mt-5 list-none p-0 m-0 columns-2 gap-x-8">
+        <li class="py-1.5 break-inside-avoid">
+          <a href="../../de/schmuck/" class="link-nav text-tusz text-body">Schmuck</a>
+        </li>
+        <li class="py-1.5 break-inside-avoid">
+          <a href="../../de/wholesale/" class="link-nav text-tusz text-body">Für Händler</a>
+        </li>
+        <li class="py-1.5 break-inside-avoid">
+          <a href="../../de/haendlerkarte/" class="link-nav text-tusz text-body">Verkaufsstellen</a>
+        </li>
+        <li class="py-1.5 break-inside-avoid">
+          <a href="../../de/atelier/" class="link-nav text-tusz text-body">Atelier</a>
+        </li>
+        <li class="py-1.5 break-inside-avoid">
+          <a href="../../de/messe/" class="link-nav text-tusz text-body">Messen</a>
+        </li>
+        <li class="py-1.5 break-inside-avoid">
+          <a href="../../de/journal/" class="link-nav text-tusz text-body">Journal</a>
+        </li>
+        <li class="py-1.5 break-inside-avoid">
+          <a href="../../de/kontakt/" class="link-nav text-tusz text-body">Kontakt</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="col-span-12 sm:col-span-6 md:col-span-3 md:col-start-10">
+      <p class="etykieta punca text-glos">Rechtliches</p>
+      <ul class="mt-5 list-none p-0 m-0 text-caption">
+        <li class="py-1"><a href="../../de/recht/datenschutz/" class="link-nav text-glos">Datenschutzerklärung</a></li>
+        <li class="py-1"><a href="../../de/recht/nutzungsbedingungen/" class="link-nav text-glos">Nutzungsbedingungen</a></li>
+        <li class="py-1"><a href="../../de/recht/impressum/" class="link-nav text-glos">Impressum</a></li>
+        <li class="py-1"><a href="../../de/recht/ki-kennzeichnung/" class="link-nav text-glos">KI-Kennzeichnung</a></li>
+        <li class="py-1"><a href="../../de/eu-projekte/" class="link-nav text-glos">EU-Projekte</a></li>
+        <li class="py-1"><button type="button" data-rola="cmp-otworz" class="link-nav text-glos bg-transparent border-0 p-0 cursor-pointer">Einstellungen</button></li>
+      </ul>
+    </div>
+
+    <div class="col-span-12 md:col-span-6 border-t border-linia pt-8">
+      <h2 class="etykieta punca text-glos">Newsletter</h2>
+      <p class="text-caption text-glos mt-3 miara">Neue Modelle, Messetermine, Hinweise zur Pflege. Zwei Ausgaben im Monat.</p>
+      <form class="mt-5 flex flex-wrap items-end gap-3" method="post" action="#" data-rola="newsletter">
+        <div class="flex-1 min-w-[13rem] max-w-[22rem]">
+          <label for="nl-mail" class="sr-only">E-Mail-Adresse</label>
+          <input id="nl-mail" name="email" type="email" required autocomplete="email"
+                 placeholder="E-Mail-Adresse" class="pole">
+        </div>
+        <input type="text" name="firma_www" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
+        <button type="submit" class="btn btn-glowny">Abonnieren</button>
+      </form>
+      <p class="text-caption text-szept mt-2">Sie können sich jederzeit abmelden. Details in der Datenschutzerklärung.</p>
+    </div>
+
+    <div class="col-span-12 md:col-span-5 md:col-start-8 border-t border-linia pt-8">
+      <p class="text-caption text-glos miara">Einzelne Bildhintergründe auf dieser Seite wurden mit KI-Werkzeugen erstellt. Das Schmuckstück selbst stammt immer aus einer realen Aufnahme der Marke. Gekennzeichnete Materialien tragen den Hinweis direkt am Bild.</p>
+    </div>
+
+    <div class="col-span-12 border-t border-linia pt-6 flex flex-wrap items-baseline justify-between gap-3">
+      <p class="text-caption text-glos m-0">© 2026 EvaStone. Alle Rechte vorbehalten.</p>
+      <p class="etykieta text-szept m-0">evastone.eu</p>
+    </div>
+  </div>
+</footer>
+
+<div x-data="cmp()" x-init="init()" x-show="widoczny" x-cloak style="display:none"
+     class="fixed inset-x-0 bottom-0 z-50 p-3 md:p-5"
+     role="dialog" aria-modal="false" aria-labelledby="cmp-h" aria-describedby="cmp-t">
+
+  <div class="mx-auto max-w-[var(--container-tresc)] bg-tusz text-papier p-5 md:p-7 ziarno ziarno-lekkie">
+
+    <div class="flex flex-col lg:flex-row lg:items-start gap-6">
+      <div class="flex-1">
+        <h2 id="cmp-h" class="font-display text-h2">Cookies und Messung</h2>
+        <p id="cmp-t" class="text-caption mt-2 text-papier/85 miara">Wir setzen notwendige Cookies für den Betrieb der Seite. Für Statistik und Marketing brauchen wir Ihre Einwilligung — ohne sie wird nichts geladen und nichts gemessen.</p>
+        <a href="../../de/recht/datenschutz/" class="text-caption underline text-papier mt-2 inline-block">Mehr in der Datenschutzerklärung</a>
+      </div>
+
+      <div class="flex flex-wrap gap-2 lg:justify-end shrink-0">
+        <button type="button" class="btn btn-kontra-drugi" @click="szczegoly = !szczegoly">Einstellungen</button>
+        <button type="button" class="btn btn-kontra-drugi" @click="zapisz({statistik:false, marketing:false})">Nur notwendige</button>
+        <button type="button" class="btn btn-kontra" @click="zapisz({statistik:true, marketing:true})">Alle akzeptieren</button>
+      </div>
+    </div>
+
+    <div x-show="szczegoly" x-collapse class="mt-6 pt-6 border-t border-papier/25">
+      <ul class="grid gap-4 md:grid-cols-3 list-none p-0 m-0">
+        <li>
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="text-body font-bold">Notwendig</h3>
+            <span class="text-caption text-papier/70">Immer aktiv</span>
+          </div>
+          <p class="text-caption mt-1.5 text-papier/80">Sprache, Sitzung, Sicherheit. Ohne diese funktioniert die Seite nicht.</p>
+        </li>
+        <li>
+          <label class="flex items-center justify-between gap-3 cursor-pointer">
+            <h3 class="text-body font-bold">Statistik</h3>
+            <input type="checkbox" x-model="wybor.statistik" class="w-5 h-5 accent-papier cursor-pointer">
+          </label>
+          <p class="text-caption mt-1.5 text-papier/80">Anonyme Reichweitenmessung (GA4). Hilft uns zu sehen, welche Seiten weiterführen.</p>
+        </li>
+        <li>
+          <label class="flex items-center justify-between gap-3 cursor-pointer">
+            <h3 class="text-body font-bold">Marketing</h3>
+            <input type="checkbox" x-model="wybor.marketing" class="w-5 h-5 accent-papier cursor-pointer">
+          </label>
+          <p class="text-caption mt-1.5 text-papier/80">Messung von Anzeigen und Retargeting.</p>
+        </li>
+      </ul>
+      <button type="button" class="btn btn-kontra mt-5" @click="zapisz(wybor)">Auswahl speichern</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="../../assets/app.js"></script>
+</body>
+</html>
