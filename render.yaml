@@ -78,7 +78,7 @@ envVarGroups:
       - key: AWS_ENDPOINT
         value: https://1884db42a6996f62b06a716a38e6d979.r2.cloudflarestorage.com
       - key: AWS_URL
-        sync: false                    # publiczny URL r2.dev (bez niego zdjęcia nie wyświetlą się)
+        value: https://pub-22c1ac5bb5af493f9d575fbda9a4e27f.r2.dev   # publiczny URL R2 (serwuje zdjęcia)
       - key: AWS_USE_PATH_STYLE_ENDPOINT
         value: "true"
 
