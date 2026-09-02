@@ -20,7 +20,9 @@ php artisan view:cache
 
 # schemat + słowniki zamknięte (seeder jest idempotentny — updateOrInsert)
 php artisan migrate --force
-php artisan db:seed --class=DictionarySeeder --force
+# DatabaseSeeder = słowniki (DictionarySeeder) + konto admina (admin@evastone.eu,
+# hasło z ADMIN_PASSWORD lub 'password'). Idempotentne (updateOrCreate/updateOrInsert).
+php artisan db:seed --class=DatabaseSeeder --force
 
 # serwer HTTP na porcie z Rendera
 exec php artisan serve --host 0.0.0.0 --port "${PORT:-8000}"
