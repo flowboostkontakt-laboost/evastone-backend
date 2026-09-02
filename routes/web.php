@@ -25,7 +25,7 @@ Route::get('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'uns
 Route::get('/{locale}/', function (string $locale) {
     abort_unless(in_array($locale, config('evastone.locales'), true), 404);
 
-    $products = Product::with(['translations', 'category.translations'])
+    $products = Product::with(['translations', 'category.translations', 'stone.translations', 'media'])
         ->where('status', 'published')
         ->orderBy('model_no')
         ->get();
