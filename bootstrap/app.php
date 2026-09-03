@@ -12,7 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // formularz leadów jest w statycznej stronie prototypu (bez @csrf);
+        // chroniony honeypotem, rate-limitem i walidacją serwerową.
+        $middleware->validateCsrfTokens(except: ['*/wholesale']);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

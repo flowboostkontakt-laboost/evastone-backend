@@ -10,7 +10,9 @@ use App\Http\Controllers\Controller;
 
 class CatalogController extends Controller
 {
-    /** /{locale}/{section}/ oraz /{locale}/{section}/{category}/ */
+    private const PER_PAGE = 24;
+
+    /** /{locale}/{section}/ oraz /{locale}/{section}/{category}/ — stronicowane (DECYZJE §20). */
     public function index(string $locale, ?string $section = null, ?string $category = null)
     {
         abort_unless(in_array($locale, config('evastone.locales'), true), 404);
@@ -30,7 +32,11 @@ class CatalogController extends Controller
             ->where('status', 'published')
             ->when($categoryModel, fn ($q) => $q->where('category_id', $categoryModel->id))
             ->orderBy('model_no')
-            ->get();
+            ->paginate(self::PER_PAGE)
+            ->withQueryString();
+
+        // strona poza zakresem → 404 (nie pusta lista) — kontrakt §20
+        abort_if($products->currentPage() > $products->lastPage() && $products->total() > 0, 404);
 
         return view('catalog.index', [
             'products' => $products,

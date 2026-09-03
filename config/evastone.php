@@ -40,6 +40,12 @@ return [
         'blacklist' => [],
     ],
 
+    // webhook CRM dla leadów B2B (spec 16 §4.1). Puste → tylko log.
+    'lead_webhook_url' => env('LEAD_WEBHOOK_URL', ''),
+
+    // zlokalizowane slugi strony podziękowania po formularzu B2B (site.json → slugs)
+    'danke_slugs' => ['de' => 'danke', 'en' => 'thank-you', 'pl' => 'dziekujemy'],
+
     // §3.3 — zamknięta lista wykończeń występujących w danych źródłowych
     // (data-wykonczenie w ComUp; koreluje z sufiksem model_no: AG/AK/OX/AU)
     'finishes' => ['silber', 'kombi', 'oxidiert', 'vergoldet'],
