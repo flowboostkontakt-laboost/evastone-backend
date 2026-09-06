@@ -83,7 +83,7 @@
         </ul>
       </nav>
       <div class="px-7 md:px-10 pb-8">
-        <a href="mailto:kontakt@evastone.eu" class="link-podkreslony text-papier/85 text-body inline-block">kontakt@evastone.eu</a>
+        <a href="mailto:office@evastone.eu" class="link-podkreslony text-papier/85 text-body inline-block">office@evastone.eu</a>
       </div>
     </div>
   </div>
@@ -98,7 +98,7 @@
     <div class="col-span-12 md:col-span-4">
       <img src="/logo/evastone-wordmark.svg" alt="EvaStone" width="190" height="29" class="h-5 w-auto" loading="lazy">
       <p class="text-caption text-glos mt-3">{{ $tr['tagline'] }}</p>
-      <a href="mailto:kontakt@evastone.eu" class="link-podkreslony text-tusz text-body mt-5 inline-block">kontakt@evastone.eu</a>
+      <a href="mailto:office@evastone.eu" class="link-podkreslony text-tusz text-body mt-5 inline-block">office@evastone.eu</a>
     </div>
     <nav class="col-span-12 sm:col-span-6 md:col-span-4 md:col-start-6" aria-label="{{ $tr['navTitle'] }}">
       <p class="etykieta punca text-glos">{{ $tr['navTitle'] }}</p>
