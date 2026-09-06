@@ -4,9 +4,9 @@
     $section = $sections[$loc] ?? 'schmuck';
     $others = array_values(array_diff(['de','en','pl'], [$loc]));
     $tr = [
-        'de' => ['tagline'=>'Autorenschmuck in 925 Silber für unabhängige Boutiquen','skip'=>'Zum Inhalt springen','menu'=>'Menu','close'=>'Menü schließen','haendler'=>'Für Händler: Konditionen','nav'=>['Schmuck'=>"/$loc/$section/",'Für Händler'=>"/$loc/wholesale/",'Verkaufsstellen'=>"/$loc/haendlerkarte/",'Atelier'=>"/$loc/atelier/",'Messen'=>"/$loc/messe/",'Journal'=>"/$loc/journal/",'Kontakt'=>"/$loc/kontakt/"],'legalTitle'=>'Rechtliches','navTitle'=>'Navigation','nlTitle'=>'Newsletter','nlText'=>'Neue Modelle, Messetermine, Hinweise zur Pflege. Zwei Ausgaben im Monat.','nlBtn'=>'Abonnieren','nlMail'=>'E-Mail-Adresse','langNames'=>['de'=>'Deutsch','en'=>'English','pl'=>'Polski']],
-        'en' => ['tagline'=>'Author jewellery in 925 silver for independent boutiques','skip'=>'Skip to content','menu'=>'Menu','close'=>'Close menu','haendler'=>'For retailers: terms','nav'=>['Jewellery'=>"/$loc/$section/",'For retailers'=>"/$loc/wholesale/",'Stockists'=>"/$loc/stockists/",'Atelier'=>"/$loc/atelier/",'Trade fairs'=>"/$loc/trade-fairs/",'Journal'=>"/$loc/journal/",'Contact'=>"/$loc/contact/"],'legalTitle'=>'Legal','navTitle'=>'Navigation','nlTitle'=>'Newsletter','nlText'=>'New models, trade-fair dates, care tips. Twice a month.','nlBtn'=>'Subscribe','nlMail'=>'Email address','langNames'=>['de'=>'Deutsch','en'=>'English','pl'=>'Polski']],
-        'pl' => ['tagline'=>'Autorska biżuteria ze srebra 925 dla niezależnych butików','skip'=>'Przejdź do treści','menu'=>'Menu','close'=>'Zamknij menu','haendler'=>'Dla butików: warunki','nav'=>['Biżuteria'=>"/$loc/$section/",'Dla butików'=>"/$loc/wholesale/",'Punkty sprzedaży'=>"/$loc/haendlerkarte/",'Atelier'=>"/$loc/atelier/",'Targi'=>"/$loc/messe/",'Journal'=>"/$loc/journal/",'Kontakt'=>"/$loc/kontakt/"],'legalTitle'=>'Informacje prawne','navTitle'=>'Nawigacja','nlTitle'=>'Newsletter','nlText'=>'Nowe modele, targi, pielęgnacja. Dwa razy w miesiącu.','nlBtn'=>'Zapisz się','nlMail'=>'Adres e-mail','langNames'=>['de'=>'Deutsch','en'=>'English','pl'=>'Polski']],
+        'de' => ['tagline'=>'Autorenschmuck in 925 Silber für unabhängige Boutiquen','skip'=>'Zum Inhalt springen','menu'=>'Menu','close'=>'Menü schließen','haendler'=>'B2B-Portal','nav'=>['Schmuck'=>'/de/schmuck/','Atelier'=>'/de/atelier/','Wissenswertes'=>'/de/journal/','Verkaufsstellen'=>'/de/haendlerkarte/','Messen'=>'/de/messe/','B2B'=>'/de/wholesale/','Kontakt'=>'/de/kontakt/'],'legalTitle'=>'Rechtliches','navTitle'=>'Navigation','nlTitle'=>'Newsletter','nlText'=>'Neue Modelle, Messetermine, Hinweise zur Pflege. Zwei Ausgaben im Monat.','nlBtn'=>'Abonnieren','nlMail'=>'E-Mail-Adresse','langNames'=>['de'=>'Deutsch','en'=>'English','pl'=>'Polski']],
+        'en' => ['tagline'=>'Author jewellery in 925 silver for independent boutiques','skip'=>'Skip to content','menu'=>'Menu','close'=>'Close menu','haendler'=>'B2B portal','nav'=>['Jewellery'=>'/en/jewellery/','Atelier'=>'/en/atelier/','Knowledge'=>'/en/journal/','Stockists'=>'/en/stockists/','Trade fairs'=>'/en/trade-fairs/','B2B'=>'/en/wholesale/','Contact'=>'/en/contact/'],'legalTitle'=>'Legal','navTitle'=>'Navigation','nlTitle'=>'Newsletter','nlText'=>'New models, trade-fair dates, care tips. Twice a month.','nlBtn'=>'Subscribe','nlMail'=>'Email address','langNames'=>['de'=>'Deutsch','en'=>'English','pl'=>'Polski']],
+        'pl' => ['tagline'=>'Autorska biżuteria ze srebra 925 dla niezależnych butików','skip'=>'Przejdź do treści','menu'=>'Menu','close'=>'Zamknij menu','haendler'=>'Portal B2B','nav'=>['Biżuteria'=>'/pl/bizuteria/','Atelier'=>'/pl/atelier/','Wiedza'=>'/pl/journal/','Punkty sprzedaży'=>'/pl/mapa-dystrybutorow/','Targi'=>'/pl/targi/','B2B'=>'/pl/wholesale/','Kontakt'=>'/pl/kontakt/'],'legalTitle'=>'Informacje prawne','navTitle'=>'Nawigacja','nlTitle'=>'Newsletter','nlText'=>'Nowe modele, targi, pielęgnacja. Dwa razy w miesiącu.','nlBtn'=>'Zapisz się','nlMail'=>'Adres e-mail','langNames'=>['de'=>'Deutsch','en'=>'English','pl'=>'Polski']],
     ][$loc];
     $langHrefs = ['de'=>"/de/",'en'=>"/en/",'pl'=>"/pl/"];
 @endphp
@@ -59,6 +59,17 @@
       </div>
     </div>
   </div>
+
+  {{-- górne menu (desktop) — plan §3.1 --}}
+  <nav class="hidden lg:block border-b border-linia" aria-label="Hauptnavigation">
+    <div class="siatka">
+      <ul class="col-span-12 flex items-center gap-8 py-3.5 list-none p-0 m-0">
+        @foreach ($tr['nav'] as $label => $href)
+          <li><a href="{{ $href }}" class="link-nav text-caption uppercase tracking-[0.1em] text-tusz hover:text-glos no-underline">{{ $label }}</a></li>
+        @endforeach
+      </ul>
+    </div>
+  </nav>
 
   <div id="menu-glowne" x-show="menu" x-cloak style="display:none" class="fixed inset-0 z-50">
     <div class="absolute inset-0 bg-tusz/35" aria-hidden="true" @click="menu = false" x-transition.opacity.duration.250ms></div>
