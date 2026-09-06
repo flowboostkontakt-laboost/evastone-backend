@@ -109,7 +109,11 @@
     <div class="col-span-12 md:col-span-4">
       <img src="/logo/evastone-wordmark.svg" alt="EvaStone" width="190" height="29" class="h-5 w-auto" loading="lazy">
       <p class="text-caption text-glos mt-3">{{ $tr['tagline'] }}</p>
-      <a href="mailto:office@evastone.eu" class="link-podkreslony text-tusz text-body mt-5 inline-block">office@evastone.eu</a>
+      <address class="not-italic mt-5 text-body text-tusz leading-relaxed">
+        UL. Potokowa 22A, 80-283 Gdańsk<br>
+        <a href="tel:+48583480358" class="link-nav text-tusz">+48 58 348 03 58</a><br>
+        <a href="mailto:office@evastone.eu" class="link-podkreslony text-tusz">office@evastone.eu</a>
+      </address>
     </div>
     <nav class="col-span-12 sm:col-span-6 md:col-span-4 md:col-start-6" aria-label="{{ $tr['navTitle'] }}">
       <p class="etykieta punca text-glos">{{ $tr['navTitle'] }}</p>
