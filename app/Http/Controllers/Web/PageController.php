@@ -26,7 +26,8 @@ class PageController extends Controller
         $path = trim((string) $path, '/');
 
         if ($path === '') {
-            return $this->serveStatic($locale, '');
+            // nowa strona główna wg planu v1.0 §3 (nie stary hero z prototypu)
+            return app(HomeController::class)->index($locale);
         }
 
         $seg = explode('/', $path);

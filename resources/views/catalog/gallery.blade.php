@@ -57,14 +57,14 @@
        znika efekt „pudełek" (VCA: biel, cisza, zdjęcie niesie treść) --}}
   <section class="pb-16 md:pb-24" aria-label="{{ $h1 }}">
     <div class="siatka">
-      <ul class="col-span-12 bg-white grid grid-cols-2 md:grid-cols-3 list-none p-0 m-0">
+      <ul class="col-span-12 bg-white border-t border-l border-linia grid grid-cols-2 md:grid-cols-3 list-none p-0 m-0">
         @foreach ($products as $product)
           @php
             $img = $product->getFirstMedia('gallery')?->getUrl();
             $alt = $product->category?->translation($loc)?->name ?? 'EvaStone';
           @endphp
           @if ($img)
-            <li>
+            <li class="border-r border-b border-linia">
               <button type="button" @click="lb = '{{ $img }}'"
                       class="group relative block w-full p-5 sm:p-8 lg:p-10 cursor-zoom-in overflow-hidden"
                       aria-label="{{ $alt }}">
