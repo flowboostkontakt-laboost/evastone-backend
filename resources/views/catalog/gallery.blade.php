@@ -3,9 +3,9 @@
     $section = $section ?? config("evastone.catalog_sections.{$loc}");
     $category = $category ?? null;
     $w = [
-        'de' => ['kicker' => 'Kollektion', 'all' => 'Schmuck', 'count' => 'Modelle', 'b2b' => 'Im B2B-Portal ansehen', 'lead' => 'Eine Auswahl aus der Fertigung. Verfügbarkeit über Ihre Verkaufsstelle.'],
-        'en' => ['kicker' => 'Collection', 'all' => 'Jewellery', 'count' => 'models', 'b2b' => 'View in the B2B portal', 'lead' => 'A selection from production. Availability through your local stockist.'],
-        'pl' => ['kicker' => 'Kolekcja', 'all' => 'Biżuteria', 'count' => 'modeli', 'b2b' => 'Zobacz w portalu B2B', 'lead' => 'Wybór z produkcji. Dostępność w Twoim punkcie sprzedaży.'],
+        'de' => ['kicker' => 'Kollektion', 'all' => 'Schmuck', 'count' => 'Modelle', 'b2b' => 'Im B2B-Portal ansehen', 'lead' => 'Eine Auswahl aus der Fertigung. Verfügbarkeit über Ihre Verkaufsstelle.', 'find' => 'Verkaufsstelle finden', 'avail' => 'Dieses Stück fragen Sie in Ihrer Verkaufsstelle nach.', 'stockist' => '/de/haendlerkarte/', 'close' => 'Schließen'],
+        'en' => ['kicker' => 'Collection', 'all' => 'Jewellery', 'count' => 'models', 'b2b' => 'View in the B2B portal', 'lead' => 'A selection from production. Availability through your local stockist.', 'find' => 'Find a stockist', 'avail' => 'Ask for this piece at your local stockist.', 'stockist' => '/en/stockists/', 'close' => 'Close'],
+        'pl' => ['kicker' => 'Kolekcja', 'all' => 'Biżuteria', 'count' => 'modeli', 'b2b' => 'Zobacz w portalu B2B', 'lead' => 'Wybór z produkcji. Dostępność w Twoim punkcie sprzedaży.', 'find' => 'Znajdź punkt sprzedaży', 'avail' => 'O ten egzemplarz zapytaj w punkcie sprzedaży.', 'stockist' => '/pl/mapa-dystrybutorow/', 'close' => 'Zamknij'],
     ][$loc] ?? [];
     $h1 = $category ? ($category->translation($loc)?->name ?? $w['all']) : $w['all'];
 @endphp
@@ -73,14 +73,30 @@
     </div>
   </section>
 
-  {{-- lightbox --}}
-  <div x-show="lb" x-cloak style="display:none" @click="lb = null"
-       class="fixed inset-0 z-50 bg-tusz/90 flex items-center justify-center p-4 cursor-zoom-out"
-       x-transition.opacity>
-    <img :src="lb" alt="" class="max-h-[90vh] max-w-[90vw] object-contain">
-    <button type="button" @click="lb = null" class="absolute top-5 right-5 text-papier/80 hover:text-papier bg-transparent border-0 cursor-pointer" aria-label="close">
-      <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 5l14 14M19 5L5 19"/></svg>
-    </button>
+  {{-- lightbox: oprawione zdjęcie + wyjścia (mapa dilerów / B2B) --}}
+  <div x-show="lb" x-cloak style="display:none" @click.self="lb = null"
+       class="fixed inset-0 z-50 bg-tusz/80 backdrop-blur-sm flex items-center justify-center p-4 md:p-8 cursor-zoom-out"
+       x-transition.opacity.duration.200ms>
+    <div class="bg-papier ziarno ziarno-lekkie w-full max-w-[52rem] max-h-[92vh] overflow-auto p-4 md:p-6 relative cursor-default"
+         @click.stop x-transition.opacity.duration.200ms>
+      <button type="button" @click="lb = null"
+              class="absolute top-3 right-3 z-10 w-9 h-9 grid place-items-center bg-papier/90 text-tusz hover:text-glos border border-linia cursor-pointer"
+              aria-label="{{ $w['close'] }}">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+
+      <div class="kadr bg-plotno">
+        <img :src="lb" alt="" class="w-full max-h-[62vh] object-contain">
+      </div>
+
+      <div class="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-linia pt-5">
+        <p class="etykieta text-glos m-0 sm:max-w-[22ch]">{{ $w['avail'] }}</p>
+        <div class="flex flex-wrap gap-3 shrink-0">
+          <a href="{{ $w['stockist'] }}" class="btn btn-glowny">{{ $w['find'] }}</a>
+          <a href="/{{ $loc }}/wholesale/" class="btn btn-drugi">{{ $w['b2b'] }}</a>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 @endsection
