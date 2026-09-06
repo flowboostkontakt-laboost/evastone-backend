@@ -8,11 +8,19 @@ use App\Domain\Catalog\Models\Category;
 use App\Domain\Catalog\Models\Product;
 use App\Http\Controllers\Controller;
 
+/**
+ * Schmuck = GALERIA (plan v1.0 §3): 20–30 przykładowych modeli, tylko zdjęcia
+ * w jednym stylu, 6 kategorii jako filtry, lightbox. Bez numerów, opisów, cen
+ * i „zapytaj". Opisy istnieją wyłącznie w portalu B2B.
+ */
 class CatalogController extends Controller
 {
-    private const PER_PAGE = 24;
+    private const LIMIT = 30;
+    private const PER_CATEGORY = 5;
 
-    /** /{locale}/{section}/ oraz /{locale}/{section}/{category}/ — stronicowane (DECYZJE §20). */
+    /** 6 kategorii biżuterii (bez śmieciowych: pudełka, klipsy, unikaty…). */
+    private const GALLERY_CATEGORIES = ['pierscionki', 'kolczyki', 'zawieszki', 'kolie', 'bransolety', 'sety'];
+
     public function index(string $locale, ?string $section = null, ?string $category = null)
     {
         abort_unless(in_array($locale, config('evastone.locales'), true), 404);
@@ -28,21 +36,49 @@ class CatalogController extends Controller
                 ->firstOrFail();
         }
 
-        $products = Product::with(['translations', 'category.translations', 'stone.translations', 'media'])
-            ->where('status', 'published')
-            ->when($categoryModel, fn ($q) => $q->where('category_id', $categoryModel->id))
-            ->orderBy('model_no')
-            ->paginate(self::PER_PAGE)
-            ->withQueryString();
+        if ($categoryModel) {
+            // jedna kategoria: do 30 przykładów z tej kategorii
+            $products = Product::with(['category.translations', 'media'])
+                ->where('status', 'published')
+                ->where('category_id', $categoryModel->id)
+                ->whereHas('media')
+                ->inRandomOrder()
+                ->limit(self::LIMIT)
+                ->get();
+        } else {
+            // selekcja zróżnicowana: po ~5 z każdej z 6 kategorii → ~30
+            $catIds = Category::whereIn('slug', self::GALLERY_CATEGORIES)->pluck('id', 'slug');
+            $products = collect();
+            foreach (self::GALLERY_CATEGORIES as $slug) {
+                if (! isset($catIds[$slug])) {
+                    continue;
+                }
+                $products = $products->merge(
+                    Product::with(['category.translations', 'media'])
+                        ->where('status', 'published')
+                        ->where('category_id', $catIds[$slug])
+                        ->whereHas('media')
+                        ->inRandomOrder()
+                        ->limit(self::PER_CATEGORY)
+                        ->get()
+                );
+            }
+            $products = $products->take(self::LIMIT);
+        }
 
-        // strona poza zakresem → 404 (nie pusta lista) — kontrakt §20
-        abort_if($products->currentPage() > $products->lastPage() && $products->total() > 0, 404);
+        // kategorie do filtrów (tylko te 6, które mają opublikowane produkty)
+        $filterCats = Category::whereIn('slug', self::GALLERY_CATEGORIES)
+            ->whereHas('products', fn ($q) => $q->where('status', 'published'))
+            ->with('translations')
+            ->orderBy('position')
+            ->get();
 
-        return view('catalog.index', [
+        return view('catalog.gallery', [
             'products' => $products,
             'locale' => $locale,
             'section' => $expectedSection,
             'category' => $categoryModel,
+            'filterCats' => $filterCats,
         ]);
     }
 }

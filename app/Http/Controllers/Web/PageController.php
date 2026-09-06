@@ -37,7 +37,9 @@ class PageController extends Controller
             return match (count($rest)) {
                 0 => app(CatalogController::class)->index($locale, $section, null),
                 1 => app(CatalogController::class)->index($locale, $section, $rest[0]),
-                2 => app(ProductController::class)->show($request, $locale, $section, $rest[0], $rest[1], app(ProductSchema::class)),
+                // strony produktów usunięte (plan v1.0: galeria, opisy tylko w B2B)
+                // — stare linki /{cat}/{model} → przekierowanie do galerii kategorii
+                2 => redirect("/{$locale}/{$section}/{$rest[0]}/", 301),
                 default => abort(404),
             };
         }
