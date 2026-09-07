@@ -58,30 +58,27 @@
   </div>
 </section>
 
-{{-- EKRAN 2 — sześć kafli kategorii --}}
-<section class="py-16 md:py-24">
-  <div class="siatka">
-    <header class="col-span-12 mb-8 md:mb-12">
+{{-- EKRAN 2 — sześć kategorii na jednym białym polu (produkty pływają, bez pudełek) --}}
+<section class="bg-white border-y border-linia">
+  <div class="siatka py-14 md:py-20">
+    <header class="col-span-12 mb-10 md:mb-14">
       <p class="etykieta punca text-glos">{{ $t['schmuck'] }}</p>
       <p class="text-body text-glos mt-3 miara">{{ $t['schmuckLead'] }}</p>
     </header>
-    <ul class="col-span-12 grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 list-none p-0 m-0">
+    <ul class="col-span-12 grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-12 md:gap-x-14 md:gap-y-16 list-none p-0 m-0">
       @foreach ($tiles as $tile)
         <li>
           <a href="/{{ $loc }}/{{ $section }}/{{ $tile['slug'] }}/" class="group block no-underline text-tusz">
-            {{-- czarna rama + biały mat = oprawione zdjęcie --}}
-            <div class="bg-tusz p-2">
-              <div class="bg-white overflow-hidden">
-                @if ($tile['image'])
-                  <img src="{{ $tile['image'] }}" alt="{{ $tile['name'] }}"
-                       class="w-full aspect-square object-contain p-6 md:p-8 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-                       loading="lazy" decoding="async">
-                @else
-                  <div class="w-full aspect-square"></div>
-                @endif
-              </div>
+            <div class="overflow-hidden">
+              @if ($tile['image'])
+                <img src="{{ $tile['image'] }}" alt="{{ $tile['name'] }}"
+                     class="w-full aspect-square object-contain transition-transform duration-[800ms] ease-out group-hover:scale-[1.06]"
+                     loading="lazy" decoding="async">
+              @else
+                <div class="w-full aspect-square"></div>
+              @endif
             </div>
-            <div class="flex items-baseline justify-between gap-3 mt-4">
+            <div class="flex items-baseline justify-between gap-3 mt-5 pt-3 border-t border-linia">
               <span class="font-display text-h2 leading-none">{{ $tile['name'] }}</span>
               <span class="etykieta text-szept group-hover:text-tusz transition-colors">{{ $t['more'] }} →</span>
             </div>

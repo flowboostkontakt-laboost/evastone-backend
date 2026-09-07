@@ -53,11 +53,10 @@
     </div>
   </section>
 
-  {{-- jeden ciągły biały arkusz galerii: packshoty zlewają się z tłem,
-       znika efekt „pudełek" (VCA: biel, cisza, zdjęcie niesie treść) --}}
-  <section class="pb-16 md:pb-24" aria-label="{{ $h1 }}">
-    <div class="siatka">
-      <ul class="col-span-12 grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 list-none p-0 m-0">
+  {{-- jedno białe pole: packshoty pływają, znikają krawędzie/pudełka; dużo powietrza (minimal luxury) --}}
+  <section class="bg-white border-y border-linia" aria-label="{{ $h1 }}">
+    <div class="siatka py-10 md:py-16">
+      <ul class="col-span-12 grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-10 md:gap-x-12 md:gap-y-16 list-none p-0 m-0">
         @foreach ($products as $product)
           @php
             $img = $product->getFirstMedia('gallery')?->getUrl();
@@ -65,16 +64,13 @@
           @endphp
           @if ($img)
             <li>
-              {{-- czarna rama + biały mat = oprawione zdjęcie; białe packshoty wyglądają celowo --}}
               <button type="button" @click="lb = '{{ $img }}'"
-                      class="group relative block w-full bg-tusz p-2 cursor-zoom-in"
+                      class="group relative block w-full cursor-zoom-in overflow-hidden"
                       aria-label="{{ $alt }}">
-                <div class="bg-white overflow-hidden">
-                  <img src="{{ $img }}" alt="{{ $alt }}"
-                       class="w-full aspect-square object-contain p-5 sm:p-7 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-                       width="1080" height="1080" loading="lazy" decoding="async">
-                </div>
-                <span class="absolute bottom-4 right-4 w-9 h-9 grid place-items-center bg-tusz text-papier opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true">
+                <img src="{{ $img }}" alt="{{ $alt }}"
+                     class="w-full aspect-square object-contain transition-transform duration-[800ms] ease-out group-hover:scale-[1.06]"
+                     width="1080" height="1080" loading="lazy" decoding="async">
+                <span class="absolute bottom-2 right-2 w-8 h-8 grid place-items-center text-tusz/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true">
                   <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg>
                 </span>
               </button>
@@ -97,10 +93,8 @@
         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 5l14 14M19 5L5 19"/></svg>
       </button>
 
-      <div class="bg-tusz p-2">
-        <div class="bg-white p-4 md:p-6">
-          <img :src="lb" alt="" class="w-full max-h-[58vh] object-contain">
-        </div>
+      <div class="bg-white p-6 md:p-10">
+        <img :src="lb" alt="" class="w-full max-h-[58vh] object-contain">
       </div>
 
       <div class="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-linia pt-5">
