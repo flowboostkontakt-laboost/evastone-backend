@@ -7,7 +7,7 @@
             'kicker' => '925 Silber · Handarbeit seit 1995',
             'stores' => 'Verkaufsstellen', 'b2b' => 'B2B-Portal',
             'schmuck' => 'Schmuck', 'schmuckLead' => 'Sechs Kategorien, gefertigt in der eigenen Werkstatt.',
-            'atK' => 'Atelier', 'atH' => 'Kunst entsteht aus Liebe zur Schönheit.', 'atBody' => 'Die Autorenschmuck-Werkstatt von Ewa und Rafał Szyszko in Gdańsk verbindet alte Goldschmiedetechnik mit eigenem Entwurf. Jedes Stück entsteht von Hand.', 'atBtn' => 'Das Atelier',
+            'atK' => 'Atelier', 'atH' => 'Kunst entsteht aus Liebe zur Schönheit.', 'atBody' => 'Die Autorenschmuck-Werkstatt von Ewa und Rafał Szyszko in Gdańsk verbindet alte Goldschmiedetechnik mit eigenem Entwurf. Jedes Stück entsteht von Hand.', 'atBtn' => 'Das Atelier', 'more' => 'Mehr',
             'mapK' => 'Verkaufsstellen', 'mapH' => 'Finden Sie ein Geschäft in Ihrer Nähe.', 'mapBtn' => 'Alle Verkaufsstellen',
             'messenK' => 'Messen', 'messenH' => 'Wo Sie uns treffen.', 'messenBtn' => 'Termine ansehen',
         ],
@@ -16,7 +16,7 @@
             'kicker' => '925 silver · handcrafted since 1995',
             'stores' => 'Stockists', 'b2b' => 'B2B portal',
             'schmuck' => 'Jewellery', 'schmuckLead' => 'Six categories, made in our own workshop.',
-            'atK' => 'Atelier', 'atH' => 'Art is born of a love of beauty.', 'atBody' => 'The author-jewellery workshop of Ewa and Rafał Szyszko in Gdańsk joins old goldsmith craft with its own design. Every piece is made by hand.', 'atBtn' => 'The atelier',
+            'atK' => 'Atelier', 'atH' => 'Art is born of a love of beauty.', 'atBody' => 'The author-jewellery workshop of Ewa and Rafał Szyszko in Gdańsk joins old goldsmith craft with its own design. Every piece is made by hand.', 'atBtn' => 'The atelier', 'more' => 'More',
             'mapK' => 'Stockists', 'mapH' => 'Find a store near you.', 'mapBtn' => 'All stockists',
             'messenK' => 'Trade fairs', 'messenH' => 'Where to meet us.', 'messenBtn' => 'See dates',
         ],
@@ -25,7 +25,7 @@
             'kicker' => 'srebro 925 · ręcznie od 1995',
             'stores' => 'Punkty sprzedaży', 'b2b' => 'Portal B2B',
             'schmuck' => 'Biżuteria', 'schmuckLead' => 'Sześć kategorii, wykonywane w naszej pracowni.',
-            'atK' => 'Pracownia', 'atH' => 'Sztuka powstaje z miłości do piękna.', 'atBody' => 'Autorska pracownia Ewy i Rafała Szyszko w Gdańsku łączy dawne techniki złotnicze z własnym projektem. Każdy egzemplarz powstaje ręcznie.', 'atBtn' => 'Poznaj pracownię',
+            'atK' => 'Pracownia', 'atH' => 'Sztuka powstaje z miłości do piękna.', 'atBody' => 'Autorska pracownia Ewy i Rafała Szyszko w Gdańsku łączy dawne techniki złotnicze z własnym projektem. Każdy egzemplarz powstaje ręcznie.', 'atBtn' => 'Poznaj pracownię', 'more' => 'Więcej',
             'mapK' => 'Punkty sprzedaży', 'mapH' => 'Znajdź sklep w pobliżu.', 'mapBtn' => 'Wszystkie punkty',
             'messenK' => 'Targi', 'messenH' => 'Gdzie nas spotkasz.', 'messenBtn' => 'Zobacz terminy',
         ],
@@ -65,19 +65,22 @@
       <p class="etykieta punca text-glos">{{ $t['schmuck'] }}</p>
       <p class="text-body text-glos mt-3 miara">{{ $t['schmuckLead'] }}</p>
     </header>
-    <ul class="col-span-12 grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5 list-none p-0 m-0">
+    <ul class="col-span-12 bg-white border-t border-l border-linia grid grid-cols-2 md:grid-cols-3 list-none p-0 m-0">
       @foreach ($tiles as $tile)
-        <li>
-          <a href="/{{ $loc }}/{{ $section }}/{{ $tile['slug'] }}/" class="group block relative overflow-hidden bg-white no-underline">
-            @if ($tile['image'])
-              <img src="{{ $tile['image'] }}" alt="{{ $tile['name'] }}"
-                   class="w-full aspect-[4/5] object-contain p-6 transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-                   loading="lazy" decoding="async">
-            @else
-              <div class="w-full aspect-[4/5] bg-plotno"></div>
-            @endif
-            <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-tusz/70 to-transparent p-4 md:p-5">
-              <span class="font-display text-papier text-h2 leading-none">{{ $tile['name'] }}</span>
+        <li class="border-r border-b border-linia">
+          <a href="/{{ $loc }}/{{ $section }}/{{ $tile['slug'] }}/" class="group flex flex-col h-full no-underline text-tusz">
+            <div class="overflow-hidden">
+              @if ($tile['image'])
+                <img src="{{ $tile['image'] }}" alt="{{ $tile['name'] }}"
+                     class="w-full aspect-square object-contain p-6 md:p-8 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                     loading="lazy" decoding="async">
+              @else
+                <div class="w-full aspect-square bg-plotno"></div>
+              @endif
+            </div>
+            <div class="mt-auto flex items-baseline justify-between gap-3 border-t border-linia px-5 py-4">
+              <span class="font-display text-h2 leading-none">{{ $tile['name'] }}</span>
+              <span class="etykieta text-szept group-hover:text-tusz transition-colors">{{ $t['more'] }} →</span>
             </div>
           </a>
         </li>
