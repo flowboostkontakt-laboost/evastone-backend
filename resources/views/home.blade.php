@@ -65,20 +65,23 @@
       <p class="etykieta punca text-glos">{{ $t['schmuck'] }}</p>
       <p class="text-body text-glos mt-3 miara">{{ $t['schmuckLead'] }}</p>
     </header>
-    <ul class="col-span-12 bg-white border-t border-l border-linia grid grid-cols-2 md:grid-cols-3 list-none p-0 m-0">
+    <ul class="col-span-12 grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 list-none p-0 m-0">
       @foreach ($tiles as $tile)
-        <li class="border-r border-b border-linia">
-          <a href="/{{ $loc }}/{{ $section }}/{{ $tile['slug'] }}/" class="group flex flex-col h-full no-underline text-tusz">
-            <div class="overflow-hidden">
-              @if ($tile['image'])
-                <img src="{{ $tile['image'] }}" alt="{{ $tile['name'] }}"
-                     class="w-full aspect-square object-contain p-6 md:p-8 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-                     loading="lazy" decoding="async">
-              @else
-                <div class="w-full aspect-square bg-plotno"></div>
-              @endif
+        <li>
+          <a href="/{{ $loc }}/{{ $section }}/{{ $tile['slug'] }}/" class="group block no-underline text-tusz">
+            {{-- czarna rama + biały mat = oprawione zdjęcie --}}
+            <div class="bg-tusz p-2">
+              <div class="bg-white overflow-hidden">
+                @if ($tile['image'])
+                  <img src="{{ $tile['image'] }}" alt="{{ $tile['name'] }}"
+                       class="w-full aspect-square object-contain p-6 md:p-8 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                       loading="lazy" decoding="async">
+                @else
+                  <div class="w-full aspect-square"></div>
+                @endif
+              </div>
             </div>
-            <div class="mt-auto flex items-baseline justify-between gap-3 border-t border-linia px-5 py-4">
+            <div class="flex items-baseline justify-between gap-3 mt-4">
               <span class="font-display text-h2 leading-none">{{ $tile['name'] }}</span>
               <span class="etykieta text-szept group-hover:text-tusz transition-colors">{{ $t['more'] }} →</span>
             </div>
