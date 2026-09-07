@@ -43,6 +43,22 @@ return [
     // webhook CRM dla leadów B2B (spec 16 §4.1). Puste → tylko log.
     'lead_webhook_url' => env('LEAD_WEBHOOK_URL', ''),
 
+    // Zewnętrzny portal B2B (plan v1.0 §8 — „B2B = link do portalu, URL TBD").
+    // Puste → strona B2B pokazuje formularz kontaktowy zamiast linku wychodzącego.
+    'b2b_portal_url' => env('B2B_PORTAL_URL', ''),
+
+    // Adres pracowni — punkt na mapie Google (Verkaufsstellen, Kontakt).
+    'address' => [
+        'street' => 'ul. Potokowa 22A',
+        'city' => '80-283 Gdańsk',
+        'country' => 'Polska',
+        'phone' => '+48 58 348 03 58',
+        'phone_href' => '+48583480358',
+        'email' => 'office@evastone.eu',
+        // zapytanie do embeda Google Maps (bez klucza API)
+        'maps_query' => 'Potokowa 22A, 80-283 Gdańsk',
+    ],
+
     // zlokalizowane slugi strony podziękowania po formularzu B2B (site.json → slugs)
     'danke_slugs' => ['de' => 'danke', 'en' => 'thank-you', 'pl' => 'dziekujemy'],
 

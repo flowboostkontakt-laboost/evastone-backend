@@ -19,6 +19,34 @@ use Illuminate\Http\Request;
  */
 class PageController extends Controller
 {
+    /**
+     * Zlokalizowane slugi → strona marki (dynamiczna, layout eva).
+     * Plan v1.0 §3: 8-punktowa nawigacja, spójny wygląd całej witryny.
+     */
+    private const BRAND = [
+        'de' => [
+            'atelier' => 'atelier',
+            'haendlerkarte' => 'verkaufsstellen',
+            'wissenswertes' => 'wissenswertes',
+            'wholesale' => 'b2b',
+            'kontakt' => 'kontakt',
+        ],
+        'en' => [
+            'atelier' => 'atelier',
+            'stockists' => 'verkaufsstellen',
+            'knowledge' => 'wissenswertes',
+            'wholesale' => 'b2b',
+            'contact' => 'kontakt',
+        ],
+        'pl' => [
+            'atelier' => 'atelier',
+            'mapa-dystrybutorow' => 'verkaufsstellen',
+            'wiedza' => 'wissenswertes',
+            'wholesale' => 'b2b',
+            'kontakt' => 'kontakt',
+        ],
+    ];
+
     public function handle(Request $request, string $locale, ?string $path = null)
     {
         abort_unless(in_array($locale, config('evastone.locales'), true), 404);
@@ -28,6 +56,11 @@ class PageController extends Controller
         if ($path === '') {
             // nowa strona główna wg planu v1.0 §3 (nie stary hero z prototypu)
             return app(HomeController::class)->index($locale);
+        }
+
+        // strony marki (Atelier, Verkaufsstellen, Wissenswertes, B2B, Kontakt)
+        if ($page = (self::BRAND[$locale][$path] ?? null)) {
+            return app(BrandController::class)->show($locale, $page);
         }
 
         $seg = explode('/', $path);

@@ -4,9 +4,9 @@
     $section = $sections[$loc] ?? 'schmuck';
     $others = array_values(array_diff(['de','en','pl'], [$loc]));
     $tr = [
-        'de' => ['tagline'=>'Autorenschmuck in 925 Silber für unabhängige Boutiquen','skip'=>'Zum Inhalt springen','menu'=>'Menu','close'=>'Menü schließen','haendler'=>'B2B-Portal','nav'=>['Schmuck'=>'/de/schmuck/','Atelier'=>'/de/atelier/','Wissenswertes'=>'/de/journal/','Verkaufsstellen'=>'/de/haendlerkarte/','Messen'=>'/de/messe/','B2B'=>'/de/wholesale/','Kontakt'=>'/de/kontakt/'],'legalTitle'=>'Rechtliches','navTitle'=>'Navigation','nlTitle'=>'Newsletter','nlText'=>'Neue Modelle, Messetermine, Hinweise zur Pflege. Zwei Ausgaben im Monat.','nlBtn'=>'Abonnieren','nlMail'=>'E-Mail-Adresse','langNames'=>['de'=>'Deutsch','en'=>'English','pl'=>'Polski']],
-        'en' => ['tagline'=>'Author jewellery in 925 silver for independent boutiques','skip'=>'Skip to content','menu'=>'Menu','close'=>'Close menu','haendler'=>'B2B portal','nav'=>['Jewellery'=>'/en/jewellery/','Atelier'=>'/en/atelier/','Knowledge'=>'/en/journal/','Stockists'=>'/en/stockists/','Trade fairs'=>'/en/trade-fairs/','B2B'=>'/en/wholesale/','Contact'=>'/en/contact/'],'legalTitle'=>'Legal','navTitle'=>'Navigation','nlTitle'=>'Newsletter','nlText'=>'New models, trade-fair dates, care tips. Twice a month.','nlBtn'=>'Subscribe','nlMail'=>'Email address','langNames'=>['de'=>'Deutsch','en'=>'English','pl'=>'Polski']],
-        'pl' => ['tagline'=>'Autorska biżuteria ze srebra 925 dla niezależnych butików','skip'=>'Przejdź do treści','menu'=>'Menu','close'=>'Zamknij menu','haendler'=>'Portal B2B','nav'=>['Biżuteria'=>'/pl/bizuteria/','Atelier'=>'/pl/atelier/','Wiedza'=>'/pl/journal/','Punkty sprzedaży'=>'/pl/mapa-dystrybutorow/','Targi'=>'/pl/targi/','B2B'=>'/pl/wholesale/','Kontakt'=>'/pl/kontakt/'],'legalTitle'=>'Informacje prawne','navTitle'=>'Nawigacja','nlTitle'=>'Newsletter','nlText'=>'Nowe modele, targi, pielęgnacja. Dwa razy w miesiącu.','nlBtn'=>'Zapisz się','nlMail'=>'Adres e-mail','langNames'=>['de'=>'Deutsch','en'=>'English','pl'=>'Polski']],
+        'de' => ['tagline'=>'Autorenschmuck in 925 Silber für unabhängige Boutiquen','skip'=>'Zum Inhalt springen','menu'=>'Menu','close'=>'Menü schließen','haendler'=>'B2B-Portal','nav'=>['Schmuck'=>'/de/schmuck/','Atelier'=>'/de/atelier/','Wissenswertes'=>'/de/wissenswertes/','Verkaufsstellen'=>'/de/haendlerkarte/','Messen'=>'/de/messe/','B2B'=>'/de/wholesale/','Kontakt'=>'/de/kontakt/'],'legalTitle'=>'Rechtliches','navTitle'=>'Navigation','nlTitle'=>'Newsletter','nlText'=>'Neue Modelle, Messetermine, Hinweise zur Pflege. Zwei Ausgaben im Monat.','nlBtn'=>'Abonnieren','nlMail'=>'E-Mail-Adresse','langNames'=>['de'=>'Deutsch','en'=>'English','pl'=>'Polski']],
+        'en' => ['tagline'=>'Author jewellery in 925 silver for independent boutiques','skip'=>'Skip to content','menu'=>'Menu','close'=>'Close menu','haendler'=>'B2B portal','nav'=>['Jewellery'=>'/en/jewellery/','Atelier'=>'/en/atelier/','Knowledge'=>'/en/knowledge/','Stockists'=>'/en/stockists/','Trade fairs'=>'/en/trade-fairs/','B2B'=>'/en/wholesale/','Contact'=>'/en/contact/'],'legalTitle'=>'Legal','navTitle'=>'Navigation','nlTitle'=>'Newsletter','nlText'=>'New models, trade-fair dates, care tips. Twice a month.','nlBtn'=>'Subscribe','nlMail'=>'Email address','langNames'=>['de'=>'Deutsch','en'=>'English','pl'=>'Polski']],
+        'pl' => ['tagline'=>'Autorska biżuteria ze srebra 925 dla niezależnych butików','skip'=>'Przejdź do treści','menu'=>'Menu','close'=>'Zamknij menu','haendler'=>'Portal B2B','nav'=>['Biżuteria'=>'/pl/bizuteria/','Atelier'=>'/pl/atelier/','Wiedza'=>'/pl/wiedza/','Punkty sprzedaży'=>'/pl/mapa-dystrybutorow/','Targi'=>'/pl/targi/','B2B'=>'/pl/wholesale/','Kontakt'=>'/pl/kontakt/'],'legalTitle'=>'Informacje prawne','navTitle'=>'Nawigacja','nlTitle'=>'Newsletter','nlText'=>'Nowe modele, targi, pielęgnacja. Dwa razy w miesiącu.','nlBtn'=>'Zapisz się','nlMail'=>'Adres e-mail','langNames'=>['de'=>'Deutsch','en'=>'English','pl'=>'Polski']],
     ][$loc];
     $langHrefs = ['de'=>"/de/",'en'=>"/en/",'pl'=>"/pl/"];
 @endphp
@@ -41,13 +41,13 @@
         </span>
       </a>
       <div class="col-span-5 md:col-span-7 flex items-center justify-end gap-2.5 md:gap-5">
-        <div class="hidden md:flex items-center gap-1 text-caption" role="group" aria-label="Language">
-          <span class="px-1.5 py-1 font-bold uppercase text-tusz" aria-current="true">{{ $loc }}</span>
+        <div class="eva-lang hidden md:flex items-center" role="group" aria-label="Language">
+          <a aria-current="true">{{ $loc }}</a>
           @foreach ($others as $o)
-            <a href="{{ $langHrefs[$o] }}" hreflang="{{ $o }}" class="px-1.5 py-1 text-szept no-underline hover:text-tusz uppercase">{{ $o }}</a>
+            <a href="{{ $langHrefs[$o] }}" hreflang="{{ $o }}">{{ $o }}</a>
           @endforeach
         </div>
-        <a href="/{{ $loc }}/wholesale/" class="btn btn-glowny hidden md:inline-flex">{{ $tr['haendler'] }}</a>
+        <a href="/{{ $loc }}/wholesale/" class="eva-b2b hidden md:inline-flex">{{ $tr['haendler'] }}</a>
         <button type="button" class="lg:hidden inline-flex items-center gap-2.5 min-h-11 px-3 border border-tusz text-caption font-bold tracking-[0.14em] uppercase text-tusz bg-transparent cursor-pointer"
                 @click="menu = !menu" :aria-expanded="menu.toString()" aria-controls="menu-glowne">
           <span x-text="menu ? '{{ $tr['close'] }}' : '{{ $tr['menu'] }}'">{{ $tr['menu'] }}</span>
@@ -61,12 +61,13 @@
     </div>
   </div>
 
-  {{-- górne menu (desktop) — plan §3.1 --}}
-  <nav class="hidden lg:block border-b border-linia" aria-label="Hauptnavigation">
+  {{-- górne menu (desktop) — plan §3.1, złoty aktywny/hover --}}
+  <nav class="hidden lg:block" aria-label="Hauptnavigation" style="border-bottom:1px solid var(--eva-linia)">
     <div class="siatka">
-      <ul class="col-span-12 flex items-center gap-8 py-3.5 list-none p-0 m-0">
+      <ul class="col-span-12 eva-nav" style="padding:.85rem 0">
         @foreach ($tr['nav'] as $label => $href)
-          <li><a href="{{ $href }}" class="link-nav text-caption uppercase tracking-[0.1em] text-tusz hover:text-glos no-underline">{{ $label }}</a></li>
+          @php $hp = trim($href, '/'); $isActive = request()->is($hp) || request()->is($hp.'/*'); @endphp
+          <li><a href="{{ $href }}" @if($isActive) aria-current="page" @endif>{{ $label }}</a></li>
         @endforeach
       </ul>
     </div>
