@@ -21,6 +21,7 @@
 <link rel="preload" href="/fonts/dm-serif-display-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/noto-sans-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/app.css">
+<link rel="stylesheet" href="/assets/eva-extra.css">
 <link rel="icon" href="/logo/evastone-sygnet-maska.png" type="image/png">
 <meta name="theme-color" content="#efe7da">
 @yield('head')
