@@ -15,11 +15,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.className += ' eva-js';</script>
 <title>@yield('title', 'EvaStone')</title>
 <meta name="description" content="@yield('meta', $tr['tagline'])">
 <meta name="robots" content="noindex">
-<link rel="preload" href="/fonts/dm-serif-display-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/noto-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap">
 <link rel="stylesheet" href="/assets/app.css">
 <link rel="stylesheet" href="/assets/eva-extra.css">
 <link rel="icon" href="/logo/evastone-sygnet-maska.png" type="image/png">
@@ -28,6 +31,7 @@
 </head>
 
 <body class="min-h-dvh flex flex-col bg-papier text-tusz">
+<div class="eva-noise" aria-hidden="true"></div>
 <a class="skip" href="#tresc">{{ $tr['skip'] }}</a>
 
 <header x-data="nawigacja()" @keydown.escape.window="menu = false">
@@ -149,5 +153,6 @@
 </footer>
 
 <script type="module" src="/assets/app.js"></script>
+<script src="/assets/eva-motion.js" defer></script>
 </body>
 </html>

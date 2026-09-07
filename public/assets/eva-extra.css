@@ -1,213 +1,297 @@
-/* EvaStone — własne komponenty dla stron dynamicznych (home + galeria).
-   Napisane jako pełny CSS, NIE utility Tailwinda — bo skompilowany app.css
-   prototypu ma wycięte (purged) wiele klas (bg-white, gap-*, itp.).
-   Korzysta z palety i fontów zdefiniowanych w app.css. */
+/* ============================================================================
+   EvaStone — system projektowy „cinematic quiet luxury"
+   Redesign v2 (2026-09-07). Poziom rzemiosła Apple/Van Cleef, stonowany,
+   godny marki jubilerskiej — NIE tech-SaaS.
+   Napisane jako pełny CSS (app.css prototypu to purged Tailwind — nie ufamy
+   dowolnym utility). Ładowane PO app.css; obowiązuje na stronach layoutu eva.
+   ========================================================================= */
 
 :root {
-  --eva-tusz: #17140f;              /* głębszy tekst = większy kontrast */
-  --eva-papier: var(--color-papier, #efe7da);
-  --eva-linia: #cfc6b4;             /* wyraźniejsza linia niż domyślna */
-  --eva-glos: #5c5346;             /* ciemniejszy drugorzędny = mniej blado */
-  --eva-szept: #8a8175;
-  --eva-biel: #faf8f4;             /* złamana biel */
-  --eva-gold: #C59B27;             /* stonowane złoto — AKCENT */
-  --eva-gold-2: #D4A359;
+  /* --- atrament / papier (ciepłe neutralne, głęboki kontrast) --- */
+  --ink:      #16120c;   /* nagłówki, najgłębszy */
+  --ink-soft: #2a241b;   /* mocny tekst */
+  --body:     #4b4235;   /* tekst drugorzędny czytelny */
+  --mute:     #7c7263;   /* podpisy, etykiety */
+  --whisper:  #a99f8e;   /* najlżejszy */
+  --paper:    #f3eee4;   /* tło strony */
+  --paper-2:  #faf7f0;   /* jaśniejszy pas */
+  --white:    #fffdf9;   /* karty / białe pole */
+  --line:     #e4dccc;   /* delikatna linia */
+  --line-2:   #d3c9b5;   /* wyraźniejsza linia */
+
+  /* --- złoto (akcent — oszczędnie) --- */
+  --gold:      #c29a3d;   /* linie, hover, znaczniki */
+  --gold-warm: #d4a95a;   /* jaśniejszy błysk (na ciemnym) */
+  --gold-ink:  #927215;   /* złoty TEKST na jasnym (kontrast) */
+
+  /* --- ciemne pasy --- */
+  --night:    #16120c;
+  --night-2:  #201a12;
+
+  /* --- typografia --- */
+  --serif: "Cormorant Garamond", "DM Serif Display", Georgia, "Times New Roman", serif;
+  --sans:  "Noto Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* --- ruch (fizyka) --- */
+  --spring: cubic-bezier(.2, .8, .2, 1);
+  --ease:   cubic-bezier(.4, 0, .2, 1);
 }
 
-/* ====== PEŁNY BLEED ======
-   Prototypowy app.css daje <body> boczny padding (~68px), przez co pasy
-   (hero, białe pole, cytat) nie sięgały krawędzi ekranu i wyglądały jak
-   „nieskończone". Zdejmujemy go — treść i tak trzyma gutter przez .siatka
-   (własny padding + max-width). Dotyczy tylko stron w layoucie eva. */
-body { padding-left: 0 !important; padding-right: 0 !important; }
+/* mapowanie na zmienne używane w app.css/Blade */
+:root {
+  --font-display: var(--serif);
+  --eva-tusz: var(--ink);
+  --eva-papier: var(--paper);
+  --eva-linia: var(--line-2);
+  --eva-glos: var(--body);
+  --eva-szept: var(--mute);
+  --eva-biel: var(--white);
+  --eva-gold: var(--gold);
+  --eva-gold-2: var(--gold-warm);
+}
 
-/* ====== ZŁOTY AKCENT (subtelny, premium) ====== */
-.eva-gold { color: var(--eva-gold); }
-/* znacznik sekcji: krótka złota kreska zamiast szarego kwadratu */
-.eva-kick { display: flex; align-items: center; gap: .75rem; margin: 0; font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--eva-glos); }
-.eva-kick::before { content: ""; display: inline-block; flex: none; width: 1.75rem; height: 1.5px; background: var(--eva-gold); }
+/* ====== PODSTAWY / RESET WARSTWY EVA ====== */
+body { padding-left: 0 !important; padding-right: 0 !important; background: var(--paper); color: var(--ink-soft); }
 
-/* ---- górne menu (desktop) — zawija się, nigdy nie ucina ---- */
-.eva-nav { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem clamp(1rem, .4rem + 1.2vw, 1.9rem); list-style: none; margin: 0; padding: 0; }
-.eva-nav a { position: relative; text-decoration: none; color: var(--eva-tusz); font-size: clamp(.66rem, .6rem + .18vw, .72rem); letter-spacing: .12em; text-transform: uppercase; padding: .35rem 0; white-space: nowrap; transition: color .2s; }
-.eva-nav a::after { content: ""; position: absolute; left: 0; bottom: -2px; height: 1.5px; width: 0; background: var(--eva-gold); transition: width .25s ease; }
-.eva-nav a:hover { color: var(--eva-gold); }
-.eva-nav a:hover::after,
-.eva-nav a[aria-current="page"]::after { width: 100%; }
-.eva-nav a[aria-current="page"] { color: var(--eva-gold); }
+/* Cormorant jest cienki i „wysoki" — wyrównujemy nagłówki */
+.font-display, .text-display, .text-mega,
+h1, h2, h3 { font-family: var(--serif); }
+.font-display { font-weight: 500; }
 
-/* ---- przełącznik języka ---- */
-.eva-lang a { color: var(--eva-szept); text-decoration: none; text-transform: uppercase; font-size: .72rem; letter-spacing: .1em; padding: .25rem .3rem; transition: color .2s; }
-.eva-lang a:hover { color: var(--eva-gold); }
-.eva-lang [aria-current] { color: var(--eva-tusz); font-weight: 700; }
+/* delikatna tekstura ziarna — likwiduje banding, „organiczny" feel */
+.eva-noise {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: .5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+main, header, footer { position: relative; z-index: 2; }
 
-/* ---- przycisk B2B w nagłówku (ciemny + złoty ślad na hover) ---- */
-.eva-b2b { display: inline-flex; align-items: center; gap: .5rem; background: var(--eva-tusz); color: var(--eva-papier); text-decoration: none; padding: .8rem 1.4rem; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; border: 1px solid var(--eva-tusz); transition: background .2s, color .2s; }
-.eva-b2b:hover { background: var(--eva-gold); border-color: var(--eva-gold); color: #fff; }
+/* selekcja tekstu w tonie marki */
+::selection { background: rgba(194,154,61,.22); color: var(--ink); }
 
-/* ---- białe pole (produkty pływają, znikają krawędzie) ---- */
-.eva-sheet { background: var(--eva-biel); border-block: 1px solid var(--eva-linia); }
-.eva-sheet-in { padding-block: 3.5rem; }
-@media (min-width: 768px) { .eva-sheet-in { padding-block: 5.5rem; } }
+/* ====== RUCH: reveal / tilt / spotlight (JS ustawia .is-in i zmienne) ====== */
+.eva-js [data-reveal] { opacity: 0; transform: translateY(26px); will-change: transform, opacity; }
+.eva-js [data-reveal].is-in { opacity: 1; transform: none; transition: opacity 1.05s var(--spring), transform 1.05s var(--spring); transition-delay: calc(var(--i, 0) * 80ms); }
 
-/* ---- siatka produktów / kategorii ---- */
+.eva-tilt { transform: perspective(900px) rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg)); transition: transform .5s var(--spring); transform-style: preserve-3d; }
+
+.eva-spot { position: relative; overflow: hidden; }
+.eva-spot > * { position: relative; z-index: 1; }
+.eva-spot::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  opacity: 0; transition: opacity .4s var(--ease);
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(212,169,90,.16), transparent 60%);
+}
+.eva-spot.is-hot::after { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .eva-tilt { transform: none !important; }
+  .eva-spot::after { display: none; }
+  * { scroll-behavior: auto !important; }
+}
+
+/* ====== ZŁOTY AKCENT ====== */
+.eva-gold { color: var(--gold-ink); }
+.eva-kick { display: flex; align-items: center; gap: .8rem; margin: 0; font-family: var(--sans); font-size: .7rem; letter-spacing: .24em; text-transform: uppercase; color: var(--mute); font-weight: 600; }
+.eva-kick::before { content: ""; display: inline-block; flex: none; width: 2rem; height: 1px; background: var(--gold); }
+
+/* ====== NAWIGACJA ====== */
+.eva-nav { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem clamp(1rem,.4rem+1.3vw,2.1rem); list-style: none; margin: 0; padding: 0; }
+.eva-nav a { position: relative; font-family: var(--sans); text-decoration: none; color: var(--ink-soft); font-size: clamp(.66rem,.6rem+.18vw,.74rem); letter-spacing: .16em; text-transform: uppercase; padding: .4rem 0; white-space: nowrap; transition: color .3s var(--ease); }
+.eva-nav a::after { content: ""; position: absolute; left: 0; bottom: -1px; height: 1px; width: 0; background: var(--gold); transition: width .35s var(--spring); }
+.eva-nav a:hover { color: var(--gold-ink); }
+.eva-nav a:hover::after, .eva-nav a[aria-current="page"]::after { width: 100%; }
+.eva-nav a[aria-current="page"] { color: var(--gold-ink); }
+
+.eva-lang { gap: .1rem; }
+.eva-lang a { font-family: var(--sans); color: var(--whisper); text-decoration: none; text-transform: uppercase; font-size: .72rem; letter-spacing: .12em; padding: .25rem .4rem; transition: color .3s var(--ease); }
+.eva-lang a:hover { color: var(--gold-ink); }
+.eva-lang [aria-current] { color: var(--ink); font-weight: 700; }
+
+.eva-b2b { display: inline-flex; align-items: center; gap: .5rem; background: var(--ink); color: var(--paper); text-decoration: none; padding: .85rem 1.5rem; font-family: var(--sans); font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; border: 1px solid var(--ink); transition: background .35s var(--ease), color .35s var(--ease), letter-spacing .35s var(--ease); }
+.eva-b2b:hover { background: var(--gold-ink); border-color: var(--gold-ink); color: #fff; letter-spacing: .2em; }
+
+/* ====== PRZYCISKI (nadpisanie prototypu — spójny, premium) ====== */
+.btn { display: inline-flex; align-items: center; gap: .55rem; font-family: var(--sans); font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; padding: .95rem 1.9rem; text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: background .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease), transform .35s var(--spring); }
+.btn:active { transform: translateY(1px); }
+.btn-glowny { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn-glowny:hover { background: var(--gold-ink); border-color: var(--gold-ink); color: #fff; }
+.btn-drugi { background: transparent; color: var(--ink); border-color: var(--line-2); }
+.btn-drugi:hover { border-color: var(--gold); color: var(--gold-ink); }
+.btn-kontra { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.btn-kontra:hover { background: var(--gold-warm); border-color: var(--gold-warm); color: var(--night); }
+.btn-kontra-drugi { background: transparent; color: var(--paper); border-color: rgba(244,239,230,.4); }
+.btn-kontra-drugi:hover { border-color: var(--gold-warm); color: var(--gold-warm); }
+
+/* ====== BIAŁE POLE / SIATKA PRODUKTÓW ====== */
+.eva-sheet { background: var(--white); border-block: 1px solid var(--line); }
+.eva-sheet-in { padding-block: 4rem; }
+@media (min-width: 768px) { .eva-sheet-in { padding-block: 6rem; } }
+
 .eva-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); column-gap: 1.75rem; row-gap: 3rem; }
 @media (min-width: 768px) { .eva-grid { grid-template-columns: repeat(3, minmax(0,1fr)); column-gap: 3.5rem; row-gap: 4.5rem; } }
 
-/* ---- kafel: produkt pływa na bieli, delikatny hover ---- */
-.eva-shot { display: block; width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in; overflow: hidden; -webkit-tap-highlight-color: transparent; }
-.eva-shot__img, .eva-tile__img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: contain; transition: transform .8s cubic-bezier(.2,.6,.2,1); }
-.eva-shot:hover .eva-shot__img, .eva-tile:hover .eva-tile__img { transform: scale(1.055); }
+.eva-shot { position: relative; display: block; width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+.eva-shot__img, .eva-tile__img { display: block; width: 100%; aspect-ratio: 1/1; object-fit: contain; transition: transform 1.1s var(--spring); }
+.eva-shot:hover .eva-shot__img, .eva-tile:hover .eva-tile__img { transform: scale(1.06); }
 
-/* ---- kafel kategorii (link + podpis) ---- */
-.eva-tile { display: block; text-decoration: none; color: var(--eva-tusz); }
-.eva-tile__cap { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; margin-top: 1.1rem; padding-top: .8rem; border-top: 1px solid var(--eva-linia); }
-.eva-tile__name { font-family: var(--font-display, "DM Serif Display", Georgia, serif); font-size: clamp(1.35rem, 1rem + 1.4vw, 2rem); line-height: 1; }
-.eva-tile__more { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--eva-szept); transition: color .2s; }
-.eva-tile:hover .eva-tile__more { color: var(--eva-gold); }
-.eva-tile:hover .eva-tile__name { color: var(--eva-gold); }
+.eva-tile { display: block; text-decoration: none; color: var(--ink); }
+.eva-tile__cap { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; margin-top: 1.2rem; padding-top: .9rem; border-top: 1px solid var(--line-2); }
+.eva-tile__name { font-family: var(--serif); font-weight: 500; font-size: clamp(1.5rem,1.05rem+1.5vw,2.15rem); line-height: 1; letter-spacing: .01em; transition: color .35s var(--ease); }
+.eva-tile__more { font-family: var(--sans); font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--mute); transition: color .35s var(--ease), transform .35s var(--spring); }
+.eva-tile:hover .eva-tile__more { color: var(--gold-ink); transform: translateX(4px); }
+.eva-tile:hover .eva-tile__name { color: var(--gold-ink); }
 
-/* ---- ikona zoom (subtelna) ---- */
-.eva-zoom { position: absolute; bottom: .25rem; right: .25rem; width: 2rem; height: 2rem; display: grid; place-items: center; color: rgba(31,28,23,.45); opacity: 0; transition: opacity .3s; pointer-events: none; }
-.eva-shot { position: relative; }
-.eva-shot:hover .eva-zoom { opacity: 1; }
+.eva-zoom { position: absolute; bottom: .5rem; right: .5rem; width: 2.2rem; height: 2.2rem; display: grid; place-items: center; color: var(--gold-ink); opacity: 0; transform: scale(.9); transition: opacity .4s var(--ease), transform .4s var(--spring); pointer-events: none; }
+.eva-shot:hover .eva-zoom { opacity: 1; transform: scale(1); }
 
-/* ---- lightbox ---- */
-.eva-lb { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 1rem; background: rgba(31,28,23,.82); backdrop-filter: blur(4px); cursor: zoom-out; }
-.eva-lb__panel { background: var(--eva-papier); width: 100%; max-width: 52rem; max-height: 92vh; overflow: auto; padding: 1rem; position: relative; cursor: default; }
-@media (min-width: 768px) { .eva-lb__panel { padding: 1.5rem; } }
-.eva-lb__frame { background: var(--eva-biel); padding: 1.75rem; }
-@media (min-width: 768px) { .eva-lb__frame { padding: 2.75rem; } }
-.eva-lb__frame img { display: block; width: 100%; max-height: 58vh; object-fit: contain; }
-.eva-lb__foot { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--eva-linia); }
+/* ====== LIGHTBOX ====== */
+.eva-lb { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 1rem; background: rgba(22,18,12,.86); backdrop-filter: blur(6px); cursor: zoom-out; }
+.eva-lb__panel { background: var(--paper); width: 100%; max-width: 54rem; max-height: 92vh; overflow: auto; padding: 1rem; position: relative; cursor: default; }
+@media (min-width: 768px) { .eva-lb__panel { padding: 1.75rem; } }
+.eva-lb__frame { background: var(--white); padding: 2rem; border: 1px solid var(--line); }
+@media (min-width: 768px) { .eva-lb__frame { padding: 3rem; } }
+.eva-lb__frame img { display: block; width: 100%; max-height: 60vh; object-fit: contain; }
+.eva-lb__foot { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line-2); }
 @media (min-width: 640px) { .eva-lb__foot { flex-direction: row; align-items: center; justify-content: space-between; } }
-.eva-lb__x { position: absolute; top: .75rem; right: .75rem; width: 2.25rem; height: 2.25rem; display: grid; place-items: center; background: var(--eva-papier); border: 1px solid var(--eva-linia); color: var(--eva-tusz); cursor: pointer; }
+.eva-lb__x { position: absolute; top: .75rem; right: .75rem; width: 2.4rem; height: 2.4rem; display: grid; place-items: center; background: var(--paper); border: 1px solid var(--line-2); color: var(--ink); cursor: pointer; transition: border-color .3s, color .3s; }
+.eva-lb__x:hover { border-color: var(--gold); color: var(--gold-ink); }
 
-/* ---- hero ---- */
-.eva-hero { position: relative; display: flex; align-items: flex-end; overflow: hidden; height: 86vh; min-height: 520px; }
-.eva-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
-.eva-hero__scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgba(31,28,23,.9) 0%, rgba(31,28,23,.45) 42%, rgba(31,28,23,.12) 100%); }
-.eva-hero__in { position: relative; width: 100%; padding-bottom: 4rem; }
-@media (min-width: 768px) { .eva-hero__in { padding-bottom: 6rem; } }
-.eva-hero__kick { font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(239,231,218,.8); margin: 0 0 1.25rem; }
-.eva-hero__claim { font-family: var(--font-display, "DM Serif Display", Georgia, serif); color: var(--eva-papier); font-size: clamp(2rem, 1.2rem + 4.2vw, 4rem); line-height: 1.08; max-width: 22ch; margin: 0; text-wrap: balance; }
-.eva-hero__cta { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2.25rem; }
+/* ====== HERO ====== */
+.eva-hero { position: relative; display: flex; align-items: flex-end; overflow: hidden; height: 92vh; min-height: 560px; }
+.eva-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; will-change: transform; transform: scale(1.05); }
+.eva-hero__scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgba(18,14,9,.92) 0%, rgba(18,14,9,.5) 40%, rgba(18,14,9,.08) 100%); }
+.eva-hero__in { position: relative; width: 100%; padding-bottom: 4.5rem; }
+@media (min-width: 768px) { .eva-hero__in { padding-bottom: 7rem; } }
+.eva-hero__kick { font-family: var(--sans); font-size: .72rem; letter-spacing: .26em; text-transform: uppercase; color: rgba(212,169,90,.9); margin: 0 0 1.5rem; display: flex; align-items: center; gap: .8rem; }
+.eva-hero__kick::before { content: ""; width: 2.2rem; height: 1px; background: var(--gold-warm); display: inline-block; }
+.eva-hero__claim { font-family: var(--serif); font-weight: 500; color: var(--paper); font-size: clamp(2.4rem,1.3rem+5vw,5.25rem); line-height: 1.04; letter-spacing: -.01em; max-width: 20ch; margin: 0; text-wrap: balance; }
+.eva-hero__cta { display: flex; flex-wrap: wrap; gap: .85rem; margin-top: 2.5rem; }
+.eva-hero__scroll { position: absolute; left: 50%; bottom: 1.5rem; transform: translateX(-50%); color: rgba(244,239,230,.6); font-family: var(--sans); font-size: .62rem; letter-spacing: .28em; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: .6rem; }
+.eva-hero__scroll span { width: 1px; height: 2.5rem; background: linear-gradient(var(--gold-warm), transparent); animation: eva-drop 2.4s var(--ease) infinite; }
+@media (max-width: 767px), (max-height: 780px) { .eva-hero__scroll { display: none; } }
+@keyframes eva-drop { 0% { transform: scaleY(0); transform-origin: top; } 45% { transform: scaleY(1); transform-origin: top; } 55% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 
-/* (znacznik sekcji .eva-kick zdefiniowany wyżej — złota kreska) */
+/* ====== NAGŁÓWEK PODSTRONY ====== */
+.eva-head { padding-top: 4rem; padding-bottom: 3rem; }
+@media (min-width: 768px) { .eva-head { padding-top: 6rem; padding-bottom: 4rem; } }
+.eva-head__title { font-family: var(--serif); font-weight: 500; font-size: clamp(2.4rem,1.4rem+4vw,4.4rem); line-height: 1.04; letter-spacing: -.01em; margin: 1.4rem 0 0; text-wrap: balance; color: var(--ink); }
+.eva-lead { font-family: var(--sans); font-size: clamp(1.05rem,.98rem+.45vw,1.3rem); line-height: 1.65; color: var(--body); max-width: 44rem; margin: 1.6rem 0 0; }
 
-/* ================= STRONY MARKI (Atelier, Verkaufsstellen, ...) ============ */
-
-/* ---- nagłówek podstrony ---- */
-.eva-head { padding-top: 3.5rem; padding-bottom: 2.5rem; }
-@media (min-width: 768px) { .eva-head { padding-top: 5rem; padding-bottom: 3.5rem; } }
-.eva-head__title { font-family: var(--font-display, "DM Serif Display", Georgia, serif); font-size: clamp(2.1rem, 1.3rem + 3.6vw, 3.6rem); line-height: 1.05; margin: 1.25rem 0 0; text-wrap: balance; color: var(--eva-tusz); }
-.eva-lead { font-size: clamp(1.02rem, .95rem + .4vw, 1.22rem); line-height: 1.6; color: var(--eva-glos); max-width: 42rem; margin: 1.4rem 0 0; }
-
-/* ---- rząd obraz ↔ tekst (naprzemiennie) ---- */
-.eva-row { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; padding-block: 3rem; }
+/* ====== RZĄD OBRAZ ↔ TEKST ====== */
+.eva-row { display: grid; grid-template-columns: 1fr; gap: 2.25rem; align-items: center; padding-block: 3.5rem; }
 @media (min-width: 900px) {
-  .eva-row { grid-template-columns: 1fr 1fr; gap: 4.5rem; padding-block: 4.5rem; }
+  .eva-row { grid-template-columns: 1fr 1fr; gap: 5rem; padding-block: 5.5rem; }
   .eva-row--flip .eva-row__media { order: 2; }
 }
-.eva-row__media img { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; }
-.eva-row__title { font-family: var(--font-display, "DM Serif Display", Georgia, serif); font-size: clamp(1.6rem, 1.1rem + 2vw, 2.4rem); line-height: 1.1; margin: 1rem 0 0; text-wrap: balance; color: var(--eva-tusz); }
-.eva-row__body { font-size: 1.02rem; line-height: 1.65; color: var(--eva-glos); margin: 1.1rem 0 0; }
+.eva-row__media { overflow: hidden; }
+.eva-row__media img { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; transition: transform 1.4s var(--spring); }
+.eva-row__media:hover img { transform: scale(1.05); }
+.eva-row__title { font-family: var(--serif); font-weight: 500; font-size: clamp(1.8rem,1.2rem+2.2vw,2.8rem); line-height: 1.1; letter-spacing: -.005em; margin: 1.1rem 0 0; text-wrap: balance; color: var(--ink); }
+.eva-row__body { font-family: var(--sans); font-size: 1.05rem; line-height: 1.7; color: var(--body); margin: 1.2rem 0 0; }
 
-/* ---- cytat (pełna szerokość, ciemne tło, złoty akcent) ---- */
-.eva-quote { background: var(--eva-tusz); color: var(--eva-papier); padding-block: clamp(3.5rem, 2rem + 6vw, 6.5rem); }
-.eva-quote__mark { color: var(--eva-gold); font-family: var(--font-display, serif); font-size: 3rem; line-height: 0; display: block; height: 1.2rem; }
-.eva-quote__text { font-family: var(--font-display, "DM Serif Display", Georgia, serif); font-size: clamp(1.5rem, 1rem + 2.4vw, 2.6rem); line-height: 1.25; margin: 1.5rem 0 0; max-width: 24ch; text-wrap: balance; }
+/* ====== CYTAT (ciemny pas + spotlight) ====== */
+.eva-quote { background: var(--night); color: var(--paper); padding-block: clamp(4rem,2rem+7vw,7.5rem); }
+.eva-quote__mark { color: var(--gold-warm); font-family: var(--serif); font-size: 4rem; line-height: 0; display: block; height: 1.6rem; }
+.eva-quote__text { font-family: var(--serif); font-weight: 500; font-size: clamp(1.7rem,1rem+2.8vw,3rem); line-height: 1.22; margin: 1.75rem 0 0; max-width: 22ch; text-wrap: balance; }
 
-/* ---- oś czasu ---- */
-.eva-time { list-style: none; margin: 2.5rem 0 0; padding: 0; display: grid; gap: 0; }
-.eva-time li { display: grid; grid-template-columns: 6.5rem 1fr; gap: 1.5rem; padding: 1.75rem 0; border-top: 1px solid var(--eva-linia); }
-.eva-time li:last-child { border-bottom: 1px solid var(--eva-linia); }
-@media (min-width: 768px) { .eva-time li { grid-template-columns: 9rem 1fr; gap: 3rem; } }
-.eva-time__year { font-family: var(--font-display, serif); font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.1rem); line-height: 1; color: var(--eva-gold); }
-.eva-time__h { font-size: .95rem; letter-spacing: .02em; color: var(--eva-tusz); margin: 0; font-weight: 600; }
-.eva-time__b { font-size: .98rem; line-height: 1.6; color: var(--eva-glos); margin: .5rem 0 0; }
+/* ====== OŚ CZASU ====== */
+.eva-time { list-style: none; margin: 2.75rem 0 0; padding: 0; }
+.eva-time li { display: grid; grid-template-columns: 6.5rem 1fr; gap: 1.5rem; padding: 2rem 0; border-top: 1px solid var(--line-2); }
+.eva-time li:last-child { border-bottom: 1px solid var(--line-2); }
+@media (min-width: 768px) { .eva-time li { grid-template-columns: 10rem 1fr; gap: 3.5rem; } }
+.eva-time__year { font-family: var(--serif); font-weight: 500; font-size: clamp(1.7rem,1.1rem+1.6vw,2.4rem); line-height: 1; color: var(--gold-ink); }
+.eva-time__h { font-family: var(--sans); font-size: .95rem; letter-spacing: .01em; color: var(--ink); margin: 0; font-weight: 600; }
+.eva-time__b { font-family: var(--sans); font-size: 1rem; line-height: 1.6; color: var(--body); margin: .5rem 0 0; }
 
-/* ---- porównanie dwóch zdjęć ---- */
-.eva-pair { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-top: 2rem; }
-@media (min-width: 640px) { .eva-pair { grid-template-columns: 1fr 1fr; gap: 1.5rem; } }
-.eva-pair figure { margin: 0; }
-.eva-pair img { display: block; width: 100%; aspect-ratio: 1/1; object-fit: cover; }
-.eva-pair figcaption { margin-top: .75rem; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--eva-szept); display: flex; align-items: center; gap: .5rem; }
-.eva-pair figcaption::before { content: ""; width: 1rem; height: 1.5px; background: var(--eva-gold); flex: none; }
+/* ====== PORÓWNANIE ZDJĘĆ ====== */
+.eva-pair { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-top: 2.25rem; }
+@media (min-width: 640px) { .eva-pair { grid-template-columns: 1fr 1fr; gap: 1.75rem; } }
+.eva-pair figure { margin: 0; overflow: hidden; }
+.eva-pair img { display: block; width: 100%; aspect-ratio: 1/1; object-fit: cover; transition: transform 1.2s var(--spring); }
+.eva-pair figure:hover img { transform: scale(1.04); }
+.eva-pair figcaption { margin-top: .85rem; font-family: var(--sans); font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; color: var(--mute); display: flex; align-items: center; gap: .55rem; }
+.eva-pair figcaption::before { content: ""; width: 1.1rem; height: 1px; background: var(--gold); flex: none; }
 
-/* ---- karty wiedzy ---- */
-.eva-cards { list-style: none; margin: 2.5rem 0 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--eva-linia); }
-@media (min-width: 768px) { .eva-cards { grid-template-columns: 1fr 1fr; column-gap: 3.5rem; } }
-.eva-card { padding: 2rem 0; border-bottom: 1px solid var(--eva-linia); }
-.eva-card__kick { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--eva-gold); margin: 0; }
-.eva-card__h { font-family: var(--font-display, serif); font-size: clamp(1.35rem, 1.1rem + 1vw, 1.7rem); line-height: 1.15; margin: .7rem 0 0; color: var(--eva-tusz); }
-.eva-card__b { font-size: .98rem; line-height: 1.6; color: var(--eva-glos); margin: .8rem 0 0; }
+/* ====== KARTY WIEDZY ====== */
+.eva-cards { list-style: none; margin: 2.75rem 0 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--line-2); }
+@media (min-width: 768px) { .eva-cards { grid-template-columns: 1fr 1fr; column-gap: 4rem; } }
+.eva-card { padding: 2.25rem 0; border-bottom: 1px solid var(--line-2); }
+.eva-card__kick { font-family: var(--sans); font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-ink); margin: 0; font-weight: 600; }
+.eva-card__h { font-family: var(--serif); font-weight: 500; font-size: clamp(1.5rem,1.1rem+1.1vw,1.9rem); line-height: 1.15; margin: .8rem 0 0; color: var(--ink); }
+.eva-card__b { font-family: var(--sans); font-size: 1rem; line-height: 1.62; color: var(--body); margin: .85rem 0 0; }
 
-/* ---- mapa (Google embed) ---- */
-.eva-map { position: relative; width: 100%; aspect-ratio: 16/10; background: var(--eva-biel); border: 1px solid var(--eva-linia); overflow: hidden; }
-@media (min-width: 900px) { .eva-map { aspect-ratio: auto; height: 100%; min-height: 26rem; } }
-.eva-map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; filter: grayscale(.35) contrast(1.02); }
+/* ====== MAPA ====== */
+.eva-map { position: relative; width: 100%; aspect-ratio: 16/10; background: var(--white); border: 1px solid var(--line-2); overflow: hidden; }
+@media (min-width: 900px) { .eva-map { aspect-ratio: auto; height: 100%; min-height: 28rem; } }
+.eva-map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; filter: grayscale(.4) contrast(1.03) sepia(.08); }
 
-/* ---- blok kontakt / adres ---- */
+/* ====== KONTAKT ====== */
 .eva-contact { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
 @media (min-width: 768px) { .eva-contact { grid-template-columns: repeat(3, 1fr); gap: 3rem; } }
-.eva-contact dt { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--eva-szept); margin: 0 0 .5rem; }
-.eva-contact dd { margin: 0 0 1.5rem; font-size: 1.02rem; line-height: 1.55; color: var(--eva-tusz); }
-.eva-contact a { color: var(--eva-tusz); text-decoration: none; border-bottom: 1px solid var(--eva-gold); padding-bottom: 1px; transition: color .2s; }
-.eva-contact a:hover { color: var(--eva-gold); }
+.eva-contact dt { font-family: var(--sans); font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--mute); margin: 0 0 .6rem; font-weight: 600; }
+.eva-contact dd { margin: 0 0 1.5rem; font-family: var(--sans); font-size: 1.05rem; line-height: 1.55; color: var(--ink); }
+.eva-contact a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 1px; transition: color .3s var(--ease); }
+.eva-contact a:hover { color: var(--gold-ink); }
 
-/* ---- dwa tory (butik / klientka) ---- */
-.eva-forks { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-top: 2.5rem; }
+/* ====== DWA TORY ====== */
+.eva-forks { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-top: 2.75rem; }
 @media (min-width: 768px) { .eva-forks { grid-template-columns: 1fr 1fr; gap: 2rem; } }
-.eva-fork { border: 1px solid var(--eva-linia); background: var(--eva-biel); padding: 2rem; display: flex; flex-direction: column; }
-.eva-fork__h { font-family: var(--font-display, serif); font-size: 1.45rem; line-height: 1.15; margin: 0; color: var(--eva-tusz); }
-.eva-fork__b { font-size: .98rem; line-height: 1.6; color: var(--eva-glos); margin: .8rem 0 1.5rem; flex: 1; }
+.eva-fork { border: 1px solid var(--line-2); background: var(--white); padding: 2.25rem; display: flex; flex-direction: column; transition: border-color .4s var(--ease), transform .5s var(--spring), box-shadow .5s var(--ease); }
+.eva-fork:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 22px 48px -30px rgba(22,18,12,.4); }
+.eva-fork__h { font-family: var(--serif); font-weight: 500; font-size: 1.6rem; line-height: 1.15; margin: 0; color: var(--ink); }
+.eva-fork__b { font-family: var(--sans); font-size: 1rem; line-height: 1.6; color: var(--body); margin: .85rem 0 1.6rem; flex: 1; }
 
-/* ---- pasek CTA (domykający) ---- */
-.eva-cta { border-top: 1px solid var(--eva-linia); padding-block: 3.5rem; }
-@media (min-width: 768px) { .eva-cta { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding-block: 4.5rem; } }
-.eva-cta__h { font-family: var(--font-display, serif); font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.2rem); line-height: 1.15; margin: .5rem 0 0; color: var(--eva-tusz); text-wrap: balance; }
-.eva-cta__btns { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
+/* ====== PASEK CTA ====== */
+.eva-cta { border-top: 1px solid var(--line-2); padding-block: 4rem; }
+@media (min-width: 768px) { .eva-cta { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding-block: 5rem; } }
+.eva-cta__h { font-family: var(--serif); font-weight: 500; font-size: clamp(1.8rem,1.2rem+1.8vw,2.6rem); line-height: 1.12; margin: .6rem 0 0; color: var(--ink); text-wrap: balance; }
+.eva-cta__btns { display: flex; flex-wrap: wrap; gap: .85rem; margin-top: 1.75rem; }
 @media (min-width: 768px) { .eva-cta__btns { margin-top: 0; flex: none; } }
 
-/* ---- lista atutów (B2B) ---- */
-.eva-points { list-style: none; margin: 2rem 0 0; padding: 0; }
-.eva-points li { position: relative; padding: 1.1rem 0 1.1rem 2rem; border-top: 1px solid var(--eva-linia); font-size: 1.02rem; line-height: 1.55; color: var(--eva-tusz); }
-.eva-points li:last-child { border-bottom: 1px solid var(--eva-linia); }
-.eva-points li::before { content: ""; position: absolute; left: 0; top: 1.55rem; width: 1rem; height: 1.5px; background: var(--eva-gold); }
+/* ====== LISTA ATUTÓW ====== */
+.eva-points { list-style: none; margin: 2.25rem 0 0; padding: 0; }
+.eva-points li { position: relative; padding: 1.2rem 0 1.2rem 2.1rem; border-top: 1px solid var(--line-2); font-family: var(--sans); font-size: 1.05rem; line-height: 1.55; color: var(--ink); }
+.eva-points li:last-child { border-bottom: 1px solid var(--line-2); }
+.eva-points li::before { content: ""; position: absolute; left: 0; top: 1.65rem; width: 1.1rem; height: 1px; background: var(--gold); }
 
-/* ---- proces zamówienia: kroki numerowane ---- */
-.eva-steps { list-style: none; margin: 2.5rem 0 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 0; }
-@media (min-width: 768px) { .eva-steps { grid-template-columns: 1fr 1fr; column-gap: 3.5rem; } }
-.eva-steps li { display: grid; grid-template-columns: 3rem 1fr; gap: 1.25rem; padding: 1.6rem 0; border-top: 1px solid var(--eva-linia); align-items: start; }
-.eva-steps__no { font-family: var(--font-display, serif); font-size: 1.3rem; line-height: 1; color: var(--eva-gold); padding-top: .1rem; }
-.eva-steps__h { font-size: 1rem; font-weight: 600; color: var(--eva-tusz); margin: 0; line-height: 1.3; }
-.eva-steps__b { font-size: .95rem; line-height: 1.55; color: var(--eva-glos); margin: .45rem 0 0; }
+/* ====== PROCES: KROKI NUMEROWANE ====== */
+.eva-steps { list-style: none; margin: 2.75rem 0 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 0; }
+@media (min-width: 768px) { .eva-steps { grid-template-columns: 1fr 1fr; column-gap: 4rem; } }
+.eva-steps li { display: grid; grid-template-columns: 3.25rem 1fr; gap: 1.25rem; padding: 1.75rem 0; border-top: 1px solid var(--line-2); align-items: start; }
+.eva-steps__no { font-family: var(--serif); font-weight: 500; font-size: 1.5rem; line-height: 1; color: var(--gold-ink); padding-top: .05rem; }
+.eva-steps__h { font-family: var(--sans); font-size: 1.02rem; font-weight: 600; color: var(--ink); margin: 0; line-height: 1.3; }
+.eva-steps__b { font-family: var(--sans); font-size: .98rem; line-height: 1.55; color: var(--body); margin: .5rem 0 0; }
 
-/* ---- kwalifikacja: pasuje / nie pasuje ---- */
-.eva-quali { display: grid; grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--eva-linia); }
+/* ====== KWALIFIKACJA ====== */
+.eva-quali { display: grid; grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--line-2); }
 @media (min-width: 768px) { .eva-quali { grid-template-columns: 1fr 1fr; } }
-.eva-quali__col { padding: 2rem 0; border-bottom: 1px solid var(--eva-linia); }
-@media (min-width: 768px) { .eva-quali__col--no { padding-left: 3rem; border-left: 1px solid var(--eva-linia); } }
-.eva-quali__h { font-family: var(--font-display, serif); font-size: 1.45rem; margin: 0 0 1.25rem; color: var(--eva-tusz); }
+.eva-quali__col { padding: 2.25rem 0; border-bottom: 1px solid var(--line-2); }
+@media (min-width: 768px) { .eva-quali__col--no { padding-left: 3.5rem; border-left: 1px solid var(--line-2); } }
+.eva-quali__h { font-family: var(--serif); font-weight: 500; font-size: 1.6rem; margin: 0 0 1.25rem; color: var(--ink); }
 .eva-quali__col ul { list-style: none; margin: 0; padding: 0; }
-.eva-quali__col li { position: relative; padding: .7rem 0 .7rem 1.9rem; font-size: .98rem; line-height: 1.5; color: var(--eva-glos); }
+.eva-quali__col li { position: relative; padding: .75rem 0 .75rem 2rem; font-family: var(--sans); font-size: 1rem; line-height: 1.5; color: var(--body); }
 .eva-quali__col li::before { position: absolute; left: 0; top: .7rem; font-size: 1rem; line-height: 1.5; }
-.eva-quali__h--yes::after { content: ""; display: block; width: 2rem; height: 2px; background: var(--eva-gold); margin-top: .6rem; }
-.eva-quali__h--no::after { content: ""; display: block; width: 2rem; height: 2px; background: var(--eva-linia); margin-top: .6rem; }
-.eva-quali__col:not(.eva-quali__col--no) li::before { content: "＋"; color: var(--eva-gold); }
-.eva-quali__col--no li::before { content: "－"; color: var(--eva-szept); }
+.eva-quali__h--yes::after, .eva-quali__h--no::after { content: ""; display: block; width: 2.2rem; height: 2px; margin-top: .7rem; }
+.eva-quali__h--yes::after { background: var(--gold); }
+.eva-quali__h--no::after { background: var(--line-2); }
+.eva-quali__col:not(.eva-quali__col--no) li::before { content: "＋"; color: var(--gold-ink); }
+.eva-quali__col--no li::before { content: "－"; color: var(--whisper); }
 
-/* ---- formularz „Partner werden" ---- */
+/* ====== FORMULARZ ====== */
 .eva-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-.eva-form__grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem 1.5rem; }
+.eva-form__grid { display: grid; grid-template-columns: 1fr; gap: 1.35rem 1.5rem; }
 @media (min-width: 640px) { .eva-form__grid { grid-template-columns: 1fr 1fr; } }
 .eva-field { display: flex; flex-direction: column; gap: .5rem; }
 .eva-field--wide { grid-column: 1 / -1; }
-.eva-field__l { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--eva-glos); }
-.eva-field__l em { font-style: normal; color: var(--eva-szept); text-transform: none; letter-spacing: 0; font-size: .92em; }
-.eva-field input { width: 100%; background: var(--eva-biel); border: 1px solid var(--eva-linia); padding: .85rem 1rem; font: inherit; font-size: 1rem; color: var(--eva-tusz); transition: border-color .2s; }
-.eva-field input:focus { outline: none; border-color: var(--eva-gold); }
-.eva-form__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 1.75rem; }
-.eva-form__note { font-size: .85rem; line-height: 1.5; color: var(--eva-szept); margin: 0; max-width: 34ch; }
-.eva-form__err { color: #9a2b1e; font-size: .9rem; margin: 1rem 0 0; }
+.eva-field__l { font-family: var(--sans); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--body); font-weight: 600; }
+.eva-field__l em { font-style: normal; color: var(--whisper); text-transform: none; letter-spacing: 0; font-size: .92em; font-weight: 400; }
+.eva-field input { width: 100%; background: var(--white); border: 1px solid var(--line-2); padding: .95rem 1.1rem; font-family: var(--sans); font-size: 1rem; color: var(--ink); transition: border-color .3s var(--ease), box-shadow .3s var(--ease); }
+.eva-field input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(194,154,61,.14); }
+.eva-form__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.75rem; margin-top: 2rem; }
+.eva-form__note { font-family: var(--sans); font-size: .85rem; line-height: 1.5; color: var(--whisper); margin: 0; max-width: 36ch; }
+.eva-form__err { font-family: var(--sans); color: #9a2b1e; font-size: .9rem; margin: 1rem 0 0; }
+
+/* ====== FOOTER — subtelne złoto na linkach ====== */
+footer a.link-nav:hover, footer a.link-podkreslony:hover { color: var(--gold-ink); }

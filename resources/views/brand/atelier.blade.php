@@ -6,20 +6,20 @@
 
 {{-- nagłówek + zdjęcie pracowni --}}
 <section class="siatka eva-head">
-  <div class="col-span-12 md:col-span-6">
+  <div class="col-span-12 md:col-span-6" data-reveal>
     <p class="eva-kick">{{ $kick }}</p>
     <h1 class="eva-head__title">{{ $title }}</h1>
     <p class="eva-lead">{{ $lead }}</p>
   </div>
-  <div class="col-span-12 md:col-span-5 md:col-start-8" style="align-self:end">
-    <img src="/img/photo/werkstatt-raum-1440.webp" alt="{{ $kick }}" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block" fetchpriority="high">
+  <div class="col-span-12 md:col-span-5 md:col-start-8" style="align-self:end" data-reveal>
+    <div class="eva-row__media"><img src="/img/photo/werkstatt-raum-1440.webp" alt="{{ $kick }}" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block" fetchpriority="high"></div>
   </div>
 </section>
 
 {{-- cytat --}}
-<section class="eva-quote">
+<section class="eva-quote eva-spot">
   <div class="siatka">
-    <blockquote class="col-span-12 md:col-span-9" style="margin:0">
+    <blockquote class="col-span-12 md:col-span-9" style="margin:0" data-reveal>
       <span class="eva-quote__mark" aria-hidden="true">“</span>
       <p class="eva-quote__text">{{ $quote }}</p>
     </blockquote>
@@ -29,8 +29,8 @@
 {{-- rzemiosło: obraz ↔ tekst --}}
 <div class="siatka">
   <section class="col-span-12 eva-row eva-row--flip">
-    <div class="eva-row__media"><img src="/img/photo/werkstatt-werkbank-1440.webp" alt="{{ $craftKick }}" loading="lazy"></div>
-    <div>
+    <div class="eva-row__media" data-reveal><img src="/img/photo/werkstatt-werkbank-1440.webp" alt="{{ $craftKick }}" loading="lazy"></div>
+    <div data-reveal>
       <p class="eva-kick">{{ $craftKick }}</p>
       <h2 class="eva-row__title">{{ $craftTitle }}</h2>
       <p class="eva-row__body">{{ $craftBody }}</p>
@@ -40,7 +40,7 @@
 
 {{-- oś czasu --}}
 <section class="siatka" style="padding-block:1rem 3.5rem">
-  <div class="col-span-12 md:col-span-10">
+  <div class="col-span-12 md:col-span-10" data-reveal>
     <p class="eva-kick">{{ $timelineKick }}</p>
     <h2 class="eva-head__title" style="font-size:clamp(1.8rem,1.2rem+2.4vw,2.8rem)">{{ $timelineTitle }}</h2>
     <ul class="eva-time">
@@ -58,12 +58,12 @@
 <section class="eva-sheet">
   <div class="siatka">
     <div class="col-span-12 eva-sheet-in">
-      <div style="max-width:44rem">
+      <div style="max-width:44rem" data-reveal>
         <p class="eva-kick">{{ $diffKick }}</p>
         <h2 class="eva-row__title" style="margin-top:.75rem">{{ $diffTitle }}</h2>
         <p class="eva-row__body">{{ $diffBody }}</p>
       </div>
-      <div class="eva-pair">
+      <div class="eva-pair" data-reveal>
         <figure><img src="/img/photo/silber-glatte-schiene-1440.webp" alt="{{ $diffCapA }}" loading="lazy"><figcaption>{{ $diffCapA }}</figcaption></figure>
         <figure><img src="/img/photo/silber-oberflaechenstruktur-1440.webp" alt="{{ $diffCapB }}" loading="lazy"><figcaption>{{ $diffCapB }}</figcaption></figure>
       </div>
